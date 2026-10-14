@@ -11,11 +11,11 @@
     <!-- Google Fonts (Cairo) -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     
-    <!-- Firebase SDK (Configured with your project) -->
+    <!-- Firebase SDK -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, updateDoc, collection, addDoc, onSnapshot, query, where, orderBy } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, updatePassword } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, updateDoc, collection, addDoc, onSnapshot, query, where } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCg_mn94W-MxZNfv7JkdJqb-Nm6xVNphCQ",
@@ -33,25 +33,25 @@
 
         window.firebaseAuth = auth;
         window.firebaseDb = db;
-        window.fbAuthOps = { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged };
-        window.fbDbOps = { doc, setDoc, getDoc, updateDoc, collection, addDoc, onSnapshot, query, where, orderBy };
+        window.fbAuthOps = { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updatePassword };
+        window.fbDbOps = { doc, setDoc, getDoc, updateDoc, collection, addDoc, onSnapshot, query, where };
     </script>
 
     <style>
         body { font-family: 'Cairo', sans-serif; }
         .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
-        .glass-dark { background: rgba(15, 23, 42, 0.90); backdrop-filter: blur(14px); border: 1px solid rgba(255, 255, 255, 0.08); }
+        .glass-dark { background: rgba(15, 23, 42, 0.92); backdrop-filter: blur(14px); border: 1px solid rgba(255, 255, 255, 0.08); }
         .glow-blue { box-shadow: 0 0 30px -5px rgba(59, 130, 246, 0.4); }
     </style>
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col selection:bg-blue-600 selection:text-white">
 
     <!-- ================= AUTH CONTAINER ================= -->
-    <div id="auth-screen" class="fixed inset-0 z-50 bg-slate-950 flex items-center justify-center p-4">
+    <div id="auth-screen" class="fixed inset-0 z-50 bg-slate-950 flex items-center justify-center p-4 overflow-y-auto">
         <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-blue-950/40 via-slate-950 to-slate-950 pointer-events-none"></div>
-        <div class="relative w-full max-w-md glass-dark p-8 rounded-3xl glow-blue border border-blue-500/20 shadow-2xl">
-            <div class="text-center mb-8">
-                <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-tr from-blue-600 to-cyan-500 mb-4 glow-blue">
+        <div class="relative w-full max-w-md glass-dark p-8 rounded-3xl glow-blue border border-blue-500/20 shadow-2xl my-auto">
+            <div class="text-center mb-6">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-tr from-blue-600 to-cyan-500 mb-3 glow-blue">
                     <i class="fa-solid fa-globe text-3xl text-white"></i>
                 </div>
                 <h1 class="text-3xl font-black tracking-wider flex items-center justify-center gap-2">
@@ -85,29 +85,36 @@
             </form>
 
             <!-- Register Form -->
-            <form id="register-form" onsubmit="handleRegister(event)" class="space-y-4 hidden">
+            <form id="register-form" onsubmit="handleRegister(event)" class="space-y-3 hidden">
                 <div>
                     <label class="block text-xs font-semibold text-slate-300 mb-1">البريد الإلكتروني</label>
                     <div class="relative">
                         <span class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-500"><i class="fa-solid fa-envelope"></i></span>
-                        <input type="email" id="reg-email" required placeholder="name@example.com" class="w-full bg-slate-900/90 border border-slate-800 rounded-xl py-3 pr-10 pl-4 text-sm text-slate-100 focus:outline-none focus:border-blue-500">
+                        <input type="email" id="reg-email" required placeholder="name@example.com" class="w-full bg-slate-900/90 border border-slate-800 rounded-xl py-2.5 pr-10 pl-4 text-sm text-slate-100 focus:outline-none focus:border-blue-500">
                     </div>
                 </div>
                 <div>
                     <label class="block text-xs font-semibold text-slate-300 mb-1">كلمة المرور</label>
                     <div class="relative">
                         <span class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-500"><i class="fa-solid fa-lock"></i></span>
-                        <input type="password" id="reg-pass" required placeholder="••••••••" class="w-full bg-slate-900/90 border border-slate-800 rounded-xl py-3 pr-10 pl-4 text-sm text-slate-100 focus:outline-none focus:border-blue-500">
+                        <input type="password" id="reg-pass" required placeholder="••••••••" class="w-full bg-slate-900/90 border border-slate-800 rounded-xl py-2.5 pr-10 pl-4 text-sm text-slate-100 focus:outline-none focus:border-blue-500">
                     </div>
                 </div>
                 <div>
                     <label class="block text-xs font-semibold text-slate-300 mb-1">تأكيد كلمة المرور</label>
                     <div class="relative">
                         <span class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-500"><i class="fa-solid fa-lock-open"></i></span>
-                        <input type="password" id="reg-pass-confirm" required placeholder="••••••••" class="w-full bg-slate-900/90 border border-slate-800 rounded-xl py-3 pr-10 pl-4 text-sm text-slate-100 focus:outline-none focus:border-blue-500">
+                        <input type="password" id="reg-pass-confirm" required placeholder="••••••••" class="w-full bg-slate-900/90 border border-slate-800 rounded-xl py-2.5 pr-10 pl-4 text-sm text-slate-100 focus:outline-none focus:border-blue-500">
                     </div>
                 </div>
-                <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 font-bold text-white shadow-lg shadow-blue-500/30">إنشاء الحساب في السحابة</button>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">كود الدعوة (اختياري)</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-500"><i class="fa-solid fa-ticket"></i></span>
+                        <input type="text" id="reg-invite" placeholder="أدخل كود الإحالة إن وجد" class="w-full bg-slate-900/90 border border-slate-800 rounded-xl py-2.5 pr-10 pl-4 text-sm text-slate-100 focus:outline-none focus:border-blue-500">
+                    </div>
+                </div>
+                <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 font-bold text-white shadow-lg shadow-blue-500/30 mt-2">إنشاء الحساب في السحابة</button>
             </form>
         </div>
     </div>
@@ -153,24 +160,35 @@
                     </div>
                 </div>
 
-                <!-- Quick Stats / Features -->
-                <div class="grid grid-cols-3 gap-3">
-                    <div class="glass p-4 rounded-2xl text-center border border-slate-800">
-                        <i class="fa-solid fa-shield-halved text-blue-400 text-lg mb-1"></i>
-                        <h4 class="text-[11px] font-bold text-white">حماية سحابية</h4>
-                        <p class="text-[9px] text-slate-400">تشفير كامل للبيانات</p>
+                <!-- Live Crypto Prices Bar -->
+                <div class="glass p-4 rounded-3xl border border-slate-800 space-y-3">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-xs font-bold text-slate-200"><i class="fa-solid fa-chart-line text-blue-400 ml-1"></i> الأسعار الحية للعملات الرقمية</h3>
+                        <span class="text-[10px] text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded animate-pulse">تحديث مباشر</span>
                     </div>
-                    <div class="glass p-4 rounded-2xl text-center border border-slate-800">
-                        <i class="fa-solid fa-bolt text-cyan-400 text-lg mb-1"></i>
-                        <h4 class="text-[11px] font-bold text-white">سرعة التنفيذ</h4>
-                        <p class="text-[9px] text-slate-400">خوارزميات ذكية</p>
+                    <div class="grid grid-cols-3 gap-2" id="crypto-prices-container">
+                        <div class="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800 text-center">
+                            <span class="text-[10px] font-bold text-slate-400 block">BTC/USDT</span>
+                            <span id="price-btc" class="text-xs font-black text-white">$68,420.00</span>
+                        </div>
+                        <div class="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800 text-center">
+                            <span class="text-[10px] font-bold text-slate-400 block">ETH/USDT</span>
+                            <span id="price-eth" class="text-xs font-black text-white">$3,540.00</span>
+                        </div>
+                        <div class="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800 text-center">
+                            <span class="text-[10px] font-bold text-slate-400 block">SOL/USDT</span>
+                            <span id="price-sol" class="text-xs font-black text-white">$182.50</span>
+                        </div>
                     </div>
-                    <div class="glass p-4 rounded-2xl text-center border border-slate-800">
-                        <i class="fa-solid fa-headset text-emerald-400 text-lg mb-1"></i>
-                        <h4 class="text-[11px] font-bold text-white">دعم مباشر</h4>
-                        <p class="text-[9px] text-slate-400">خدمة 24/7</p>
-                    </div>
+                    <p class="text-[11px] text-slate-400 text-center px-2 pt-1 border-t border-slate-800/60">
+                        "منصة FCC-Ai تضمن لك أقصى درجات الأمان المالي والشفافية العالية في خوارزميات التداول الكمي العالمية مدعومة بأحدث تقنيات الذكاء الاصطناعي."
+                    </p>
                 </div>
+
+                <!-- Telegram Support Button -->
+                <a href="https://t.me/" target="_blank" class="w-full py-3.5 rounded-2xl bg-sky-600/20 border border-sky-500/30 text-sky-400 font-bold text-xs flex items-center justify-center gap-2 hover:bg-sky-600/30 transition-all shadow-lg">
+                    <i class="fa-brands fa-telegram text-base"></i> التواصل مع دعم التليجرام الرسمي (24/7)
+                </a>
             </section>
 
             <!-- QUANT TRADING PAGE -->
@@ -184,7 +202,7 @@
                         <p class="text-xs text-slate-400 mt-1">قم بتشغيل جلسة التداول اليومية لمضاعفة العوائد</p>
                     </div>
                     <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 flex justify-between items-center">
-                        <span class="text-xs text-slate-400">البقة الحالية:</span>
+                        <span class="text-xs text-slate-400">الباقة الحالية:</span>
                         <span id="quant-current-package" class="text-blue-400 font-bold text-sm">غير مشترك</span>
                     </div>
                     <button onclick="startQuantTask()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 font-bold text-white shadow-lg shadow-blue-500/20 hover:opacity-90 transition-all">
@@ -193,11 +211,11 @@
                 </div>
             </section>
 
-            <!-- PACKAGES PAGE -->
+            <!-- PACKAGES PAGE (Full Complete List) -->
             <section id="page-packages" class="space-y-6 hidden">
                 <div class="text-center space-y-1">
                     <h2 class="text-lg font-bold text-white">باقات الاستثمار والتحصيص</h2>
-                    <p class="text-xs text-slate-400">اختر الباقة المناسبة لطموحك المالي</p>
+                    <p class="text-xs text-slate-400">اختر الباقة المناسبة لطموحك المالي والعوائد اليومية</p>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <!-- VIP 1 -->
@@ -220,6 +238,56 @@
                         </div>
                         <button onclick="subscribePackage('VIP 2', 50)" class="mt-6 w-full py-3 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 font-bold text-xs text-white shadow-lg">اشترك الآن</button>
                     </div>
+                    <!-- VIP 3 -->
+                    <div class="glass p-5 rounded-3xl border border-amber-500/30 flex flex-col justify-between">
+                        <div>
+                            <span class="text-xs font-bold text-amber-400 bg-amber-500/10 px-3 py-1 rounded-full">VIP 3</span>
+                            <h3 class="text-2xl font-black text-white mt-3">$150</h3>
+                            <p class="text-xs text-slate-300 mt-2">الربح اليومي: <strong class="text-emerald-400">$15.00 (10%)</strong></p>
+                            <p class="text-[11px] text-slate-400 mt-1">باقة النخبة للتداول الكمي المكثف</p>
+                        </div>
+                        <button onclick="subscribePackage('VIP 3', 150)" class="mt-6 w-full py-3 rounded-xl bg-amber-600 font-bold text-xs text-white shadow-lg hover:bg-amber-500">اشترك الآن</button>
+                    </div>
+                    <!-- VIP 4 -->
+                    <div class="glass p-5 rounded-3xl border border-purple-500/30 flex flex-col justify-between">
+                        <div>
+                            <span class="text-xs font-bold text-purple-400 bg-purple-500/10 px-3 py-1 rounded-full">VIP 4</span>
+                            <h3 class="text-2xl font-black text-white mt-3">$500</h3>
+                            <p class="text-xs text-slate-300 mt-2">الربح اليومي: <strong class="text-emerald-400">$60.00 (12%)</strong></p>
+                            <p class="text-[11px] text-slate-400 mt-1">الباقة الاحترافية للمؤسسات والمحترفين</p>
+                        </div>
+                        <button onclick="subscribePackage('VIP 4', 500)" class="mt-6 w-full py-3 rounded-xl bg-purple-600 font-bold text-xs text-white shadow-lg hover:bg-purple-500">اشترك الآن</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TEAM PAGE -->
+            <section id="page-team" class="space-y-6 hidden">
+                <div class="glass p-6 rounded-3xl border border-slate-800 space-y-4 text-center">
+                    <div class="w-14 h-14 rounded-2xl bg-cyan-600/20 text-cyan-400 mx-auto flex items-center justify-center text-xl font-bold">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-base font-bold text-white">فريق الإحالات والترويج</h2>
+                        <p class="text-xs text-slate-400 mt-1">ادع أصدقائك واحصل على مكاسب إضافية من أرباح الفريق</p>
+                    </div>
+                    <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-2 text-right">
+                        <span class="text-xs text-slate-400 block">رابط الدعوة الخاص بك:</span>
+                        <div class="flex gap-2">
+                            <input type="text" readonly id="ref-link-input" value="https://mohamadshk654-ops.github.io/?ref=USER" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-blue-400 focus:outline-none">
+                            <button onclick="copyRefLink()" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold transition-all">نسخ</button>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3 pt-2">
+                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800">
+                            <span class="text-[11px] text-slate-400 block">إجمالي أعضاء الفريق</span>
+                            <strong class="text-white text-base">0 عضو</strong>
+                        </div>
+                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800">
+                            <span class="text-[11px] text-slate-400 block">عمولات الفريق</span>
+                            <strong class="text-emerald-400 text-base">$0.00</strong>
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -233,21 +301,32 @@
 
             <!-- PROFILE PAGE -->
             <section id="page-profile" class="space-y-6 hidden">
-                <div class="glass p-6 rounded-3xl border border-slate-800 space-y-4">
-                    <div class="flex items-center gap-3 pb-3 border-b border-slate-800">
-                        <div class="w-12 h-12 rounded-2xl bg-blue-600 flex items-center justify-center text-lg font-black text-white">U</div>
+                <div class="glass p-6 rounded-3xl border border-slate-800 space-y-6">
+                    <div class="flex items-center gap-3 pb-4 border-b border-slate-800">
+                        <div class="w-12 h-12 rounded-2xl bg-blue-600 flex items-center justify-center text-lg font-black text-white" id="profile-avatar-letter">U</div>
                         <div>
                             <h3 class="font-bold text-sm text-white" id="profile-email">email@example.com</h3>
                             <span class="text-[10px] text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded">حساب موثق سحابياً</span>
                         </div>
                     </div>
+
+                    <!-- Change Password Form -->
+                    <div class="space-y-3">
+                        <h4 class="text-xs font-bold text-slate-200"><i class="fa-solid fa-key text-blue-400 ml-1"></i> تغيير كلمة المرور</h4>
+                        <div>
+                            <label class="block text-[11px] text-slate-400 mb-1">كلمة المرور الجديدة</label>
+                            <input type="password" id="new-password-input" placeholder="••••••••" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-blue-500">
+                        </div>
+                        <button onclick="updateUserPassword()" class="w-full py-2.5 rounded-xl bg-slate-900 border border-slate-700 hover:bg-slate-800 font-bold text-xs text-white transition-all">تحديث كلمة المرور</button>
+                    </div>
+
                     <button onclick="logout()" class="w-full py-3 rounded-xl bg-red-500/10 text-red-400 font-bold text-xs border border-red-500/20 hover:bg-red-500/20 transition-all">
                         <i class="fa-solid fa-right-from-bracket ml-1"></i> تسجيل الخروج
                     </button>
                 </div>
             </section>
 
-            <!-- ADMIN DASHBOARD (nnnnaaatttnanooo@gmail.com) -->
+            <!-- ADMIN DASHBOARD (nnnnaaatttnanooo@gmail.com - Protected) -->
             <section id="page-admin" class="space-y-6 hidden">
                 <div class="glass p-6 rounded-3xl border border-amber-500/30 space-y-6">
                     <div class="flex justify-between items-center pb-3 border-b border-slate-800">
@@ -272,6 +351,7 @@
                 <button onclick="switchTab('home')" id="nav-btn-home" class="flex flex-col items-center text-blue-400 transition-all"><i class="fa-solid fa-house text-lg"></i><span class="text-[10px] mt-1 font-bold">الرئيسية</span></button>
                 <button onclick="switchTab('quant')" id="nav-btn-quant" class="flex flex-col items-center text-slate-400 transition-all"><i class="fa-solid fa-microchip text-lg"></i><span class="text-[10px] mt-1 font-bold">التداول</span></button>
                 <button onclick="switchTab('packages')" id="nav-btn-packages" class="flex flex-col items-center text-slate-400 transition-all"><i class="fa-solid fa-gem text-lg"></i><span class="text-[10px] mt-1 font-bold">الباقات</span></button>
+                <button onclick="switchTab('team')" id="nav-btn-team" class="flex flex-col items-center text-slate-400 transition-all"><i class="fa-solid fa-users text-lg"></i><span class="text-[10px] mt-1 font-bold">الفريق</span></button>
                 <button onclick="switchTab('records')" id="nav-btn-records" class="flex flex-col items-center text-slate-400 transition-all"><i class="fa-solid fa-clock-rotate-left text-lg"></i><span class="text-[10px] mt-1 font-bold">السجل</span></button>
                 <button onclick="switchTab('profile')" id="nav-btn-profile" class="flex flex-col items-center text-slate-400 transition-all"><i class="fa-solid fa-user text-lg"></i><span class="text-[10px] mt-1 font-bold">حسابي</span></button>
                 <button onclick="switchTab('admin')" id="nav-admin" class="hidden flex flex-col items-center text-amber-400 transition-all"><i class="fa-solid fa-shield-cat text-lg"></i><span class="text-[10px] mt-1 font-bold">الأدمن</span></button>
@@ -306,6 +386,7 @@
             const email = document.getElementById('reg-email').value.trim();
             const pass = document.getElementById('reg-pass').value;
             const passConfirm = document.getElementById('reg-pass-confirm').value;
+            const inviteCode = document.getElementById('reg-invite').value.trim();
 
             if (pass !== passConfirm) return alert('كلمتا المرور غير متطابقتين!');
 
@@ -318,6 +399,7 @@
                     balance: 0,
                     withdrawable: 0,
                     package: 'غير مشترك',
+                    inviteCode: inviteCode || 'none',
                     createdAt: new Date()
                 });
 
@@ -349,11 +431,16 @@
                             document.getElementById('main-app').classList.remove('hidden');
                             document.getElementById('profile-email').innerText = user.email;
                             document.getElementById('header-username').innerText = user.email.split('@')[0];
+                            document.getElementById('profile-avatar-letter').innerText = user.email.charAt(0).toUpperCase();
                             document.getElementById('user-avatar-initial').innerText = user.email.charAt(0).toUpperCase();
+                            document.getElementById('ref-link-input').value = `https://mohamadshk654-ops.github.io/?ref=${user.uid.substring(0,6)}`;
 
+                            // Admin Protection Check
                             if (user.email === ADMIN_EMAIL) {
                                 document.getElementById('nav-admin').classList.remove('hidden');
                                 listenToAdminRequests();
+                            } else {
+                                document.getElementById('nav-admin').classList.add('hidden');
                             }
 
                             window.fbDbOps.onSnapshot(window.fbDbOps.doc(window.firebaseDb, "users", user.uid), (docSnap) => {
@@ -373,19 +460,39 @@
                     });
                 }
             }, 200);
+
+            // Live fluctuating prices simulator
+            setInterval(() => {
+                const btcEl = document.getElementById('price-btc');
+                const ethEl = document.getElementById('price-eth');
+                const solEl = document.getElementById('price-sol');
+                if(btcEl && ethEl && solEl) {
+                    let btcPrice = 68400 + (Math.random() * 80 - 40);
+                    let ethPrice = 3535 + (Math.random() * 20 - 10);
+                    let solPrice = 182 + (Math.random() * 4 - 2);
+                    btcEl.innerText = `$${btcPrice.toFixed(2)}`;
+                    ethEl.innerText = `$${ethPrice.toFixed(2)}`;
+                    solEl.innerText = `$${solPrice.toFixed(2)}`;
+                }
+            }, 3000);
         });
 
         function logout() { window.fbAuthOps.signOut(window.firebaseAuth); }
 
         function switchTab(t) {
-            ['home', 'quant', 'packages', 'records', 'profile', 'admin'].forEach(p => {
+            // Security guard for admin page
+            if(t === 'admin' && (!window.firebaseAuth.currentUser || window.firebaseAuth.currentUser.email !== ADMIN_EMAIL)) {
+                return alert('غير مصرح لك بالوصول لهذه الصفحة!');
+            }
+
+            ['home', 'quant', 'packages', 'team', 'records', 'profile', 'admin'].forEach(p => {
                 const el = document.getElementById(`page-${p}`);
                 if(el) el.classList.add('hidden');
             });
             const target = document.getElementById(`page-${t}`);
             if(target) target.classList.remove('hidden');
 
-            ['home', 'quant', 'packages', 'records', 'profile', 'admin'].forEach(p => {
+            ['home', 'quant', 'packages', 'team', 'records', 'profile', 'admin'].forEach(p => {
                 const btn = document.getElementById(`nav-btn-${p}`);
                 if(btn) btn.className = 'flex flex-col items-center text-slate-400 transition-all';
             });
@@ -395,6 +502,24 @@
             } else if(activeBtn) {
                 activeBtn.className = 'flex flex-col items-center text-blue-400 transition-all';
             }
+        }
+
+        async function updateUserPassword() {
+            const newPass = document.getElementById('new-password-input').value;
+            if(!newPass || newPass.length < 6) return alert('الرجاء إدخال كلمة مرور جديدة لا تقل عن 6 أحرف');
+            try {
+                await window.fbAuthOps.updatePassword(window.firebaseAuth.currentUser, newPass);
+                alert('تم تحديث كلمة المرور بنجاح!');
+                document.getElementById('new-password-input').value = '';
+            } catch(err) {
+                alert('خطأ في التحديث (قد يتطلب إعادة تسجيل الدخول): ' + err.message);
+            }
+        }
+
+        function copyRefLink() {
+            const copyText = document.getElementById('ref-link-input');
+            navigator.clipboard.writeText(copyText.value);
+            alert('تم نسخ رابط الدعوة بنجاح!');
         }
 
         function openModal(type) {
