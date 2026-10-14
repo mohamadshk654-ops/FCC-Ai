@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" id="html-root">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,7 +30,7 @@
                 <h1 class="text-3xl font-black tracking-wider flex items-center justify-center gap-2">
                     FCC-Ai <i class="fa-solid fa-circle-check text-blue-500 text-xl" title="منصة موثوقة"></i>
                 </h1>
-                <p class="text-slate-400 text-sm mt-1">منصة الذكاء الاصطناعي للتداول الكمي المتقدم</p>
+                <p id="txt-auth-subtitle" class="text-slate-400 text-sm mt-1">منصة الذكاء الاصطناعي للتداول الكمي المتقدم</p>
             </div>
 
             <div class="flex rounded-xl bg-slate-900/80 p-1 mb-6 border border-slate-800">
@@ -40,52 +40,52 @@
 
             <form id="login-form" onsubmit="handleLogin(event)" class="space-y-4">
                 <div>
-                    <label class="block text-xs font-semibold text-slate-300 mb-1">البريد الإلكتروني / حساب جوجل</label>
+                    <label id="lbl-login-email" class="block text-xs font-semibold text-slate-300 mb-1">البريد الإلكتروني</label>
                     <div class="relative">
                         <span class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-500"><i class="fa-solid fa-envelope"></i></span>
                         <input type="email" id="login-email" required placeholder="name@example.com" class="w-full bg-slate-900/90 border border-slate-800 rounded-xl py-3 pr-10 pl-4 text-sm text-slate-100 focus:outline-none focus:border-blue-500 transition-colors">
                     </div>
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold text-slate-300 mb-1">كلمة المرور</label>
+                    <label id="lbl-login-pass" class="block text-xs font-semibold text-slate-300 mb-1">كلمة المرور</label>
                     <div class="relative">
                         <span class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-500"><i class="fa-solid fa-lock"></i></span>
                         <input type="password" id="login-pass" required placeholder="••••••••" class="w-full bg-slate-900/90 border border-slate-800 rounded-xl py-3 pr-10 pl-4 text-sm text-slate-100 focus:outline-none focus:border-blue-500 transition-colors">
                     </div>
                 </div>
-                <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 font-bold text-white shadow-lg shadow-blue-500/30 hover:opacity-90 transition-opacity">دخول المنصة</button>
+                <button type="submit" id="btn-login-submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 font-bold text-white shadow-lg shadow-blue-500/30 hover:opacity-90 transition-opacity">دخول المنصة</button>
             </form>
 
             <form id="register-form" onsubmit="handleRegister(event)" class="space-y-4 hidden">
                 <div>
-                    <label class="block text-xs font-semibold text-slate-300 mb-1">البريد الإلكتروني</label>
+                    <label id="lbl-reg-email" class="block text-xs font-semibold text-slate-300 mb-1">البريد الإلكتروني</label>
                     <div class="relative">
                         <span class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-500"><i class="fa-solid fa-envelope"></i></span>
                         <input type="email" id="reg-email" required placeholder="name@example.com" class="w-full bg-slate-900/90 border border-slate-800 rounded-xl py-3 pr-10 pl-4 text-sm text-slate-100 focus:outline-none focus:border-blue-500 transition-colors">
                     </div>
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold text-slate-300 mb-1">كلمة المرور</label>
+                    <label id="lbl-reg-pass" class="block text-xs font-semibold text-slate-300 mb-1">كلمة المرور</label>
                     <div class="relative">
                         <span class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-500"><i class="fa-solid fa-lock"></i></span>
                         <input type="password" id="reg-pass" required placeholder="••••••••" class="w-full bg-slate-900/90 border border-slate-800 rounded-xl py-3 pr-10 pl-4 text-sm text-slate-100 focus:outline-none focus:border-blue-500 transition-colors">
                     </div>
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold text-slate-300 mb-1">تأكيد كلمة المرور</label>
+                    <label id="lbl-reg-pass-confirm" class="block text-xs font-semibold text-slate-300 mb-1">تأكيد كلمة المرور</label>
                     <div class="relative">
                         <span class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-500"><i class="fa-solid fa-lock-open"></i></span>
                         <input type="password" id="reg-pass-confirm" required placeholder="••••••••" class="w-full bg-slate-900/90 border border-slate-800 rounded-xl py-3 pr-10 pl-4 text-sm text-slate-100 focus:outline-none focus:border-blue-500 transition-colors">
                     </div>
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold text-slate-300 mb-1">كود الدعوة (اختياري)</label>
+                    <label id="lbl-reg-code" class="block text-xs font-semibold text-slate-300 mb-1">كود الدعوة (اختياري)</label>
                     <div class="relative">
                         <span class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-500"><i class="fa-solid fa-ticket"></i></span>
                         <input type="text" id="reg-code" placeholder="أدخل كود الإحالة إن وجد" class="w-full bg-slate-900/90 border border-slate-800 rounded-xl py-3 pr-10 pl-4 text-sm text-slate-100 focus:outline-none focus:border-blue-500 transition-colors">
                     </div>
                 </div>
-                <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 font-bold text-white shadow-lg shadow-blue-500/30 hover:opacity-90 transition-opacity">إنشاء الحساب الآن</button>
+                <button type="submit" id="btn-reg-submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 font-bold text-white shadow-lg shadow-blue-500/30 hover:opacity-90 transition-opacity">إنشاء الحساب الآن</button>
             </form>
         </div>
     </div>
@@ -101,7 +101,7 @@
                         <span class="font-black text-xl tracking-wide bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">FCC-Ai</span>
                         <i class="fa-solid fa-circle-check text-blue-500 text-sm"></i>
                     </div>
-                    <select id="lang-select" class="bg-slate-900 border border-slate-800 rounded-lg text-xs py-1 px-2 text-slate-300 focus:outline-none focus:border-blue-500">
+                    <select id="lang-select" onchange="changeLanguage(this.value)" class="bg-slate-900 border border-slate-800 rounded-lg text-xs py-1 px-2 text-slate-300 focus:outline-none focus:border-blue-500">
                         <option value="ar">العربية</option>
                         <option value="en">English</option>
                     </select>
@@ -120,15 +120,16 @@
             </div>
         </header>
 
+        <!-- Notification Box -->
         <div id="notif-box" class="hidden fixed top-16 left-4 right-4 max-w-sm mx-auto z-50 glass-dark rounded-2xl p-4 border border-blue-500/30 shadow-2xl">
             <div class="flex justify-between items-center mb-3 pb-2 border-b border-slate-800">
-                <h3 class="font-bold text-sm flex items-center gap-2"><i class="fa-solid fa-bell text-blue-500"></i> إشعارات النظام</h3>
+                <h3 id="notif-title" class="font-bold text-sm flex items-center gap-2"><i class="fa-solid fa-bell text-blue-500"></i> إشعارات النظام</h3>
                 <button onclick="toggleNotifications()" class="text-slate-400 hover:text-white text-xs"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <div class="space-y-2 text-xs text-slate-300">
                 <div class="p-2.5 rounded-xl bg-slate-900 border border-slate-800">
-                    <p class="font-semibold text-blue-400">مرحباً بك في FCC-Ai</p>
-                    <p class="text-slate-400 mt-0.5">المهمة الكمية تتفعل مرة واحدة كل 24 ساعة بدقة تامة.</p>
+                    <p id="notif-welcome-title" class="font-semibold text-blue-400">مرحباً بك في FCC-Ai</p>
+                    <p id="notif-welcome-desc" class="text-slate-400 mt-0.5">المهمة الكمية تتفعل مرة واحدة كل 24 ساعة بدقة تامة.</p>
                 </div>
             </div>
         </div>
@@ -141,26 +142,26 @@
                 <div class="glass p-6 rounded-3xl relative overflow-hidden glow-blue border border-blue-500/20">
                     <div class="grid grid-cols-2 gap-4 mb-6">
                         <div>
-                            <p class="text-xs text-slate-400 mb-1">رصيد الحساب الإجمالي</p>
+                            <p id="lbl-total-bal" class="text-xs text-slate-400 mb-1">رصيد الحساب الإجمالي</p>
                             <h2 class="text-2xl font-black text-white" id="total-balance">$0.00</h2>
                         </div>
                         <div>
-                            <p class="text-xs text-slate-400 mb-1">الرصيد القابل للسحب (الأرباح)</p>
+                            <p id="lbl-with-bal" class="text-xs text-slate-400 mb-1">الرصيد القابل للسحب (الأرباح)</p>
                             <h2 class="text-2xl font-black text-emerald-400" id="withdrawable-balance">$0.00</h2>
                         </div>
                     </div>
                     <div class="grid grid-cols-2 gap-3">
-                        <button onclick="openModal('deposit')" class="py-3 rounded-xl bg-blue-600 font-bold text-xs flex items-center justify-center gap-2 hover:bg-blue-500 transition-colors shadow-lg shadow-blue-600/30">
+                        <button onclick="openModal('deposit')" id="btn-home-deposit" class="py-3 rounded-xl bg-blue-600 font-bold text-xs flex items-center justify-center gap-2 hover:bg-blue-500 transition-colors shadow-lg shadow-blue-600/30">
                             <i class="fa-solid fa-wallet"></i> إيداع رصيد
                         </button>
-                        <button onclick="openModal('withdraw')" class="py-3 rounded-xl bg-slate-900 border border-slate-700 font-bold text-xs flex items-center justify-center gap-2 hover:bg-slate-800 transition-colors">
+                        <button onclick="openModal('withdraw')" id="btn-home-withdraw" class="py-3 rounded-xl bg-slate-900 border border-slate-700 font-bold text-xs flex items-center justify-center gap-2 hover:bg-slate-800 transition-colors">
                             <i class="fa-solid fa-money-bill-transfer"></i> سحب الأرباح
                         </button>
                     </div>
                 </div>
 
                 <div>
-                    <h3 class="text-sm font-bold text-slate-300 mb-3 flex items-center gap-2"><i class="fa-solid fa-chart-line text-blue-500"></i> أسعار العملات الرقمية الحية</h3>
+                    <h3 id="lbl-live-prices" class="text-sm font-bold text-slate-300 mb-3 flex items-center gap-2"><i class="fa-solid fa-chart-line text-blue-500"></i> أسعار العملات الرقمية الحية</h3>
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
                         <div class="glass p-3.5 rounded-2xl border border-slate-800 flex items-center justify-between">
                             <div><span class="text-xs font-bold text-slate-300 block">BTC / USDT</span><span class="text-sm font-black text-white" id="price-btc">$67,420.00</span></div>
@@ -184,26 +185,26 @@
                     <div class="w-20 h-20 rounded-3xl bg-gradient-to-tr from-blue-600 to-cyan-400 mx-auto flex items-center justify-center mb-4 glow-blue">
                         <i class="fa-solid fa-microchip text-4xl text-white"></i>
                     </div>
-                    <h2 class="text-xl font-bold mb-1">محرك التحديد الكمي الذكي</h2>
-                    <p class="text-xs text-slate-400">نفذ مهمتك اليومية مرة واحدة كل 24 ساعة للحصول على الأرباح.</p>
+                    <h2 id="quant-title-main" class="text-xl font-bold mb-1">محرك التحديد الكمي الذكي</h2>
+                    <p id="quant-desc-main" class="text-xs text-slate-400">نفذ مهمتك اليومية مرة واحدة كل 24 ساعة للحصول على الأرباح.</p>
                 </div>
 
                 <div class="glass p-6 rounded-3xl text-center space-y-6 border border-slate-800">
                     <div class="flex justify-around items-center">
                         <div>
-                            <span class="text-xs text-slate-400 block mb-1">الباقة الحالية</span>
+                            <span id="lbl-curr-pkg" class="text-xs text-slate-400 block mb-1">الباقة الحالية</span>
                             <span id="quant-current-package" class="font-bold text-sm text-blue-400">غير مشترك</span>
                         </div>
                         <div class="h-8 w-px bg-slate-800"></div>
                         <div>
-                            <span class="text-xs text-slate-400 block mb-1">حالة العداد</span>
+                            <span id="lbl-timer-status" class="text-xs text-slate-400 block mb-1">حالة العداد</span>
                             <span id="quant-status-text" class="font-bold text-sm text-amber-400">جاهز للتفعيل</span>
                         </div>
                     </div>
 
                     <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800">
                         <div id="timer-display" class="text-3xl font-black text-white mb-2">00:00:00</div>
-                        <p class="text-xs text-slate-400" id="timer-label">المهمة متاحة مرة كل 24 ساعة</p>
+                        <p id="lbl-timer-label" class="text-xs text-slate-400">المهمة متاحة مرة كل 24 ساعة</p>
                     </div>
 
                     <button onclick="startQuantTask()" id="quant-btn" class="w-full py-4 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 font-bold text-white shadow-lg shadow-blue-500/30 hover:opacity-90 transition-opacity">
@@ -215,42 +216,42 @@
             <!-- 3. PACKAGES PAGE -->
             <section id="page-packages" class="space-y-6 hidden">
                 <div class="text-center max-w-md mx-auto">
-                    <h2 class="text-xl font-bold mb-1">باقات الاستثمار والذكاء الاصطناعي</h2>
-                    <p class="text-xs text-slate-400">اختر الباقة المناسبة لك للبدء بجني الأرباح يومياً.</p>
+                    <h2 id="pkg-page-title" class="text-xl font-bold mb-1">باقات الاستثمار والذكاء الاصطناعي</h2>
+                    <p id="pkg-page-desc" class="text-xs text-slate-400">اختر الباقة المناسبة لك للبدء بجني الأرباح يومياً.</p>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="glass p-5 rounded-3xl border border-blue-500/20 flex flex-col justify-between">
                         <div>
                             <span class="text-xs font-bold text-blue-400 bg-blue-500/10 px-3 py-1 rounded-full">VIP 1</span>
-                            <h3 class="text-2xl font-black text-white mt-3">$10 <span class="text-xs font-normal text-slate-400">/ الأساسية</span></h3>
-                            <p class="text-xs text-slate-300 mt-2">الربح اليومي: <strong class="text-emerald-400">$0.40 (4%)</strong></p>
+                            <h3 class="text-2xl font-black text-white mt-3">$10 <span id="pkg-sub-1" class="text-xs font-normal text-slate-400">/ الأساسية</span></h3>
+                            <p class="text-xs text-slate-300 mt-2"><span id="lbl-daily-profit-1">الربح اليومي:</span> <strong class="text-emerald-400">$0.40 (4%)</strong></p>
                         </div>
-                        <button onclick="subscribePackage('VIP 1', 10)" class="mt-6 w-full py-3 rounded-xl bg-blue-600 font-bold text-xs hover:bg-blue-500 transition-colors">اشترك الآن</button>
+                        <button onclick="subscribePackage('VIP 1', 10)" class="btn-sub mt-6 w-full py-3 rounded-xl bg-blue-600 font-bold text-xs hover:bg-blue-500 transition-colors">اشترك الآن</button>
                     </div>
                     <div class="glass p-5 rounded-3xl border border-cyan-500/30 flex flex-col justify-between glow-blue">
                         <div>
                             <span class="text-xs font-bold text-cyan-400 bg-cyan-500/10 px-3 py-1 rounded-full">VIP 2</span>
-                            <h3 class="text-2xl font-black text-white mt-3">$50 <span class="text-xs font-normal text-slate-400">/ النمو</span></h3>
-                            <p class="text-xs text-slate-300 mt-2">الربح اليومي: <strong class="text-emerald-400">$4.00 (8%)</strong></p>
+                            <h3 class="text-2xl font-black text-white mt-3">$50 <span id="pkg-sub-2" class="text-xs font-normal text-slate-400">/ النمو</span></h3>
+                            <p class="text-xs text-slate-300 mt-2"><span id="lbl-daily-profit-2">الربح اليومي:</span> <strong class="text-emerald-400">$4.00 (8%)</strong></p>
                         </div>
-                        <button onclick="subscribePackage('VIP 2', 50)" class="mt-6 w-full py-3 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 font-bold text-xs hover:opacity-90 transition-opacity">اشترك الآن</button>
+                        <button onclick="subscribePackage('VIP 2', 50)" class="btn-sub mt-6 w-full py-3 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 font-bold text-xs hover:opacity-90 transition-opacity">اشترك الآن</button>
                     </div>
                     <div class="glass p-5 rounded-3xl border border-purple-500/30 flex flex-col justify-between">
                         <div>
                             <span class="text-xs font-bold text-purple-400 bg-purple-500/10 px-3 py-1 rounded-full">VIP 3</span>
-                            <h3 class="text-2xl font-black text-white mt-3">$150 <span class="text-xs font-normal text-slate-400">/ الاحترافية</span></h3>
-                            <p class="text-xs text-slate-300 mt-2">الربح اليومي: <strong class="text-emerald-400">$18.00 (12%)</strong></p>
+                            <h3 class="text-2xl font-black text-white mt-3">$150 <span id="pkg-sub-3" class="text-xs font-normal text-slate-400">/ الاحترافية</span></h3>
+                            <p class="text-xs text-slate-300 mt-2"><span id="lbl-daily-profit-3">الربح اليومي:</span> <strong class="text-emerald-400">$18.00 (12%)</strong></p>
                         </div>
-                        <button onclick="subscribePackage('VIP 3', 150)" class="mt-6 w-full py-3 rounded-xl bg-purple-600 font-bold text-xs hover:bg-purple-500 transition-colors">اشترك الآن</button>
+                        <button onclick="subscribePackage('VIP 3', 150)" class="btn-sub mt-6 w-full py-3 rounded-xl bg-purple-600 font-bold text-xs hover:bg-purple-500 transition-colors">اشترك الآن</button>
                     </div>
                     <div class="glass p-5 rounded-3xl border border-amber-500/30 flex flex-col justify-between">
                         <div>
                             <span class="text-xs font-bold text-amber-400 bg-amber-500/10 px-3 py-1 rounded-full">VIP 4</span>
-                            <h3 class="text-2xl font-black text-white mt-3">$500 <span class="text-xs font-normal text-slate-400">/ النخبة</span></h3>
-                            <p class="text-xs text-slate-300 mt-2">الربح اليومي: <strong class="text-emerald-400">$100.00 (20%)</strong></p>
+                            <h3 class="text-2xl font-black text-white mt-3">$500 <span id="pkg-sub-4" class="text-xs font-normal text-slate-400">/ النخبة</span></h3>
+                            <p class="text-xs text-slate-300 mt-2"><span id="lbl-daily-profit-4">الربح اليومي:</span> <strong class="text-emerald-400">$100.00 (20%)</strong></p>
                         </div>
-                        <button onclick="subscribePackage('VIP 4', 500)" class="mt-6 w-full py-3 rounded-xl bg-amber-600 font-bold text-xs hover:bg-amber-500 transition-colors">اشترك الآن</button>
+                        <button onclick="subscribePackage('VIP 4', 500)" class="btn-sub mt-6 w-full py-3 rounded-xl bg-amber-600 font-bold text-xs hover:bg-amber-500 transition-colors">اشترك الآن</button>
                     </div>
                 </div>
             </section>
@@ -258,8 +259,8 @@
             <!-- 4. RECORDS PAGE -->
             <section id="page-records" class="space-y-6 hidden">
                 <div class="text-center max-w-md mx-auto">
-                    <h2 class="text-xl font-bold mb-1">سجل المعاملات المالية</h2>
-                    <p class="text-xs text-slate-400">متابعة كافة الطلبات وحالتها.</p>
+                    <h2 id="rec-page-title" class="text-xl font-bold mb-1">سجل المعاملات المالية</h2>
+                    <p id="rec-page-desc" class="text-xs text-slate-400">متابعة كافة الطلبات وحالتها.</p>
                 </div>
                 <div class="space-y-3" id="records-list"></div>
             </section>
@@ -267,10 +268,23 @@
             <!-- 5. TEAM PAGE -->
             <section id="page-team" class="space-y-6 hidden">
                 <div class="glass p-6 rounded-3xl border border-blue-500/20 glow-blue space-y-4">
-                    <span class="text-xs text-slate-400 block">كود الدعوة الخاص بك</span>
+                    <span id="team-code-label" class="text-xs text-slate-400 block">كود الدعوة الخاص بك</span>
                     <div class="flex items-center gap-2">
                         <input type="text" readonly id="my-invite-code" value="FCC980AI" class="w-full bg-slate-900 border border-slate-800 rounded-xl py-3 px-4 font-mono text-sm font-bold text-blue-400">
-                        <button onclick="copyToClipboard('my-invite-code')" class="bg-blue-600 px-5 py-3 rounded-xl text-xs font-bold text-white">نسخ</button>
+                        <button onclick="copyToClipboard('my-invite-code')" id="btn-copy-code" class="bg-blue-600 px-5 py-3 rounded-xl text-xs font-bold text-white">نسخ</button>
+                    </div>
+                </div>
+                <div class="glass p-6 rounded-3xl border border-slate-800 space-y-3">
+                    <h3 id="team-stats-title" class="font-bold text-sm text-slate-200">إحصائيات الإحالات والفريق</h3>
+                    <div class="grid grid-cols-2 gap-4 pt-2">
+                        <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800">
+                            <span id="lbl-team-members" class="text-xs text-slate-400 block mb-1">عدد أعضاء الفريق</span>
+                            <strong id="team-count" class="text-xl text-white font-black">0</strong>
+                        </div>
+                        <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800">
+                            <span id="lbl-team-bonus" class="text-xs text-slate-400 block mb-1">إجمالي عمولات الفريق</span>
+                            <strong id="team-commission" class="text-xl text-emerald-400 font-black">$0.00</strong>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -285,7 +299,7 @@
                             <p class="text-xs text-slate-400" id="profile-email">email@example.com</p>
                         </div>
                     </div>
-                    <button onclick="logout()" class="w-full py-3.5 rounded-xl bg-red-500/10 text-red-400 font-bold text-xs border border-red-500/20">تسجيل خروج</button>
+                    <button onclick="logout()" id="btn-logout" class="w-full py-3.5 rounded-xl bg-red-500/10 text-red-400 font-bold text-xs border border-red-500/20">تسجيل خروج</button>
                 </div>
             </section>
 
@@ -302,12 +316,12 @@
         <!-- NAV BAR -->
         <nav class="fixed bottom-0 left-0 right-0 glass-dark border-t border-slate-800 py-2 px-4 z-40">
             <div class="max-w-md mx-auto flex justify-around items-center">
-                <button onclick="switchTab('home')" id="nav-home" class="flex flex-col items-center gap-1 text-blue-400"><i class="fa-solid fa-house text-lg"></i><span class="text-[10px] font-bold">الرئيسية</span></button>
-                <button onclick="switchTab('quant')" id="nav-quant" class="flex flex-col items-center gap-1 text-slate-400"><i class="fa-solid fa-microchip text-lg"></i><span class="text-[10px] font-bold">التحديد الكمي</span></button>
-                <button onclick="switchTab('packages')" id="nav-packages" class="flex flex-col items-center gap-1 text-slate-400"><i class="fa-solid fa-gem text-lg"></i><span class="text-[10px] font-bold">الباقات</span></button>
-                <button onclick="switchTab('records')" id="nav-records" class="flex flex-col items-center gap-1 text-slate-400"><i class="fa-solid fa-clock-rotate-left text-lg"></i><span class="text-[10px] font-bold">السجل</span></button>
-                <button onclick="switchTab('team')" id="nav-team" class="flex flex-col items-center gap-1 text-slate-400"><i class="fa-solid fa-users text-lg"></i><span class="text-[10px] font-bold">الفريق</span></button>
-                <button onclick="switchTab('profile')" id="nav-profile" class="flex flex-col items-center gap-1 text-slate-400"><i class="fa-solid fa-user text-lg"></i><span class="text-[10px] font-bold">حسابي</span></button>
+                <button onclick="switchTab('home')" id="nav-home" class="flex flex-col items-center gap-1 text-blue-400"><i class="fa-solid fa-house text-lg"></i><span id="nav-txt-home" class="text-[10px] font-bold">الرئيسية</span></button>
+                <button onclick="switchTab('quant')" id="nav-quant" class="flex flex-col items-center gap-1 text-slate-400"><i class="fa-solid fa-microchip text-lg"></i><span id="nav-txt-quant" class="text-[10px] font-bold">التحديد الكمي</span></button>
+                <button onclick="switchTab('packages')" id="nav-packages" class="flex flex-col items-center gap-1 text-slate-400"><i class="fa-solid fa-gem text-lg"></i><span id="nav-txt-packages" class="text-[10px] font-bold">الباقات</span></button>
+                <button onclick="switchTab('records')" id="nav-records" class="flex flex-col items-center gap-1 text-slate-400"><i class="fa-solid fa-clock-rotate-left text-lg"></i><span id="nav-txt-records" class="text-[10px] font-bold">السجل</span></button>
+                <button onclick="switchTab('team')" id="nav-team" class="flex flex-col items-center gap-1 text-slate-400"><i class="fa-solid fa-users text-lg"></i><span id="nav-txt-team" class="text-[10px] font-bold">الفريق</span></button>
+                <button onclick="switchTab('profile')" id="nav-profile" class="flex flex-col items-center gap-1 text-slate-400"><i class="fa-solid fa-user text-lg"></i><span id="nav-txt-profile" class="text-[10px] font-bold">حسابي</span></button>
                 <button onclick="switchTab('admin')" id="nav-admin" class="hidden flex flex-col items-center gap-1 text-amber-400"><i class="fa-solid fa-shield-cat text-lg"></i><span class="text-[10px] font-bold">الأدمن</span></button>
             </div>
         </nav>
@@ -328,6 +342,7 @@
     </div>
 
     <script>
+        let currentLang = localStorage.getItem('fcc_lang') || 'ar';
         let currentUser = JSON.parse(localStorage.getItem('fcc_current_user')) || null;
         let dbUsers = JSON.parse(localStorage.getItem('fcc_db_users')) || [];
         let transactions = JSON.parse(localStorage.getItem('fcc_transactions')) || [];
@@ -339,13 +354,169 @@
             "USDT-ERC20": "ERC20_Admin_Wallet_Address_ETH777"
         };
 
+        const translations = {
+            ar: {
+                authSubtitle: "منصة الذكاء الاصطناعي للتداول الكمي المتقدم",
+                tabLogin: "تسجيل الدخول",
+                tabRegister: "حساب جديد",
+                lblEmail: "البريد الإلكتروني",
+                lblPass: "كلمة المرور",
+                lblPassConfirm: "تأكيد كلمة المرور",
+                lblInviteCode: "كود الدعوة (اختياري)",
+                btnLoginSubmit: "دخول المنصة",
+                btnRegSubmit: "إنشاء الحساب الآن",
+                notifTitle: "إشعارات النظام",
+                notifWelcomeTitle: "مرحباً بك في FCC-Ai",
+                notifWelcomeDesc: "المهمة الكمية تتفعل مرة واحدة كل 24 ساعة بدقة تامة.",
+                lblTotalBal: "رصيد الحساب الإجمالي",
+                lblWithBal: "الرصيد القابل للسحب (الأرباح)",
+                btnDeposit: "إيداع رصيد",
+                btnWithdraw: "سحب الأرباح",
+                livePrices: "أسعار العملات الرقمية الحية",
+                quantTitleMain: "محرك التحديد الكمي الذكي",
+                quantDescMain: "نفذ مهمتك اليومية مرة واحدة كل 24 ساعة للحصول على الأرباح.",
+                lblCurrPkg: "الباقة الحالية",
+                lblTimerStatus: "حالة العداد",
+                lblTimerLabel: "المهمة متاحة مرة كل 24 ساعة",
+                btnQuantStart: "بدء مهمة التحديد الكمي الآن",
+                pkgPageTitle: "باقات الاستثمار والذكاء الاصطناعي",
+                pkgPageDesc: "اختر الباقة المناسبة لك للبدء بجني الأرباح يومياً.",
+                subNow: "اشترك الآن",
+                recPageTitle: "سجل المعاملات المالية",
+                recPageDesc: "متابعة كافة الطلبات وحالتها.",
+                teamCodeLabel: "كود الدعوة الخاص بك",
+                btnCopy: "نسخ",
+                teamStatsTitle: "إحصائيات الإحالات والفريق",
+                lblTeamMembers: "عدد أعضاء الفريق",
+                lblTeamBonus: "إجمالي عمولات الفريق",
+                btnLogout: "تسجيل خروج",
+                navHome: "الرئيسية",
+                navQuant: "التحديد الكمي",
+                navPackages: "الباقات",
+                navRecords: "السجل",
+                navTeam: "الفريق",
+                navProfile: "حسابي",
+                navAdmin: "الأدمن"
+            },
+            en: {
+                authSubtitle: "Advanced AI Quantitative Trading Platform",
+                tabLogin: "Login",
+                tabRegister: "Register",
+                lblEmail: "Email Address",
+                lblPass: "Password",
+                lblPassConfirm: "Confirm Password",
+                lblInviteCode: "Invitation Code (Optional)",
+                btnLoginSubmit: "Login to Platform",
+                btnRegSubmit: "Create Account Now",
+                notifTitle: "System Notifications",
+                notifWelcomeTitle: "Welcome to FCC-Ai",
+                notifWelcomeDesc: "Quantitative task activates once every 24 hours with high precision.",
+                lblTotalBal: "Total Account Balance",
+                lblWithBal: "Withdrawable Balance (Profits)",
+                btnDeposit: "Deposit",
+                btnWithdraw: "Withdraw Profits",
+                livePrices: "Live Crypto Prices",
+                quantTitleMain: "Smart Quantitative Engine",
+                quantDescMain: "Execute your daily task once every 24 hours to earn profits.",
+                lblCurrPkg: "Current Package",
+                lblTimerStatus: "Timer Status",
+                lblTimerLabel: "Task available once every 24 hours",
+                btnQuantStart: "Start Quantitative Task Now",
+                pkgPageTitle: "AI Investment Packages",
+                pkgPageDesc: "Choose the right package to start earning daily profits.",
+                subNow: "Subscribe Now",
+                recPageTitle: "Financial Records",
+                recPageDesc: "Track all requests and statuses.",
+                teamCodeLabel: "Your Invitation Code",
+                btnCopy: "Copy",
+                teamStatsTitle: "Team & Referral Statistics",
+                lblTeamMembers: "Team Members",
+                lblTeamBonus: "Total Team Commission",
+                btnLogout: "Logout",
+                navHome: "Home",
+                navQuant: "Quant",
+                navPackages: "Packages",
+                navRecords: "Records",
+                navTeam: "Team",
+                navProfile: "Profile",
+                navAdmin: "Admin"
+            }
+        };
+
         let timerInterval = null;
 
         window.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('lang-select').value = currentLang;
+            applyLanguage();
             if (currentUser) {
                 initApp();
             }
         });
+
+        function changeLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('fcc_lang', lang);
+            applyLanguage();
+        }
+
+        function applyLanguage() {
+            const t = translations[currentLang];
+            const root = document.getElementById('html-root');
+            root.setAttribute('lang', currentLang);
+            root.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+
+            document.getElementById('txt-auth-subtitle').innerText = t.authSubtitle;
+            document.getElementById('tab-login-btn').innerText = t.tabLogin;
+            document.getElementById('tab-register-btn').innerText = t.tabRegister;
+            document.getElementById('lbl-login-email').innerText = t.lblEmail;
+            document.getElementById('lbl-login-pass').innerText = t.lblPass;
+            document.getElementById('btn-login-submit').innerText = t.btnLoginSubmit;
+            
+            document.getElementById('lbl-reg-email').innerText = t.lblEmail;
+            document.getElementById('lbl-reg-pass').innerText = t.lblPass;
+            document.getElementById('lbl-reg-pass-confirm').innerText = t.lblPassConfirm;
+            document.getElementById('lbl-reg-code').innerText = t.lblInviteCode;
+            document.getElementById('btn-reg-submit').innerText = t.btnRegSubmit;
+
+            document.getElementById('notif-title').innerHTML = `<i class="fa-solid fa-bell text-blue-500"></i> ${t.notifTitle}`;
+            document.getElementById('notif-welcome-title').innerText = t.notifWelcomeTitle;
+            document.getElementById('notif-welcome-desc').innerText = t.notifWelcomeDesc;
+
+            document.getElementById('lbl-total-bal').innerText = t.lblTotalBal;
+            document.getElementById('lbl-with-bal').innerText = t.lblWithBal;
+            document.getElementById('btn-home-deposit').innerHTML = `<i class="fa-solid fa-wallet"></i> ${t.btnDeposit}`;
+            document.getElementById('btn-home-withdraw').innerHTML = `<i class="fa-solid fa-money-bill-transfer"></i> ${t.btnWithdraw}`;
+            document.getElementById('lbl-live-prices').innerHTML = `<i class="fa-solid fa-chart-line text-blue-500"></i> ${t.livePrices}`;
+
+            document.getElementById('quant-title-main').innerText = t.quantTitleMain;
+            document.getElementById('quant-desc-main').innerText = t.quantDescMain;
+            document.getElementById('lbl-curr-pkg').innerText = t.lblCurrPkg;
+            document.getElementById('lbl-timer-status').innerText = t.lblTimerStatus;
+            document.getElementById('lbl-timer-label').innerText = t.lblTimerLabel;
+            document.getElementById('quant-btn').innerText = t.btnQuantStart;
+
+            document.getElementById('pkg-page-title').innerText = t.pkgPageTitle;
+            document.getElementById('pkg-page-desc').innerText = t.pkgPageDesc;
+            document.querySelectorAll('.btn-sub').forEach(btn => btn.innerText = t.subNow);
+
+            document.getElementById('rec-page-title').innerText = t.recPageTitle;
+            document.getElementById('rec-page-desc').innerText = t.recPageDesc;
+
+            document.getElementById('team-code-label').innerText = t.teamCodeLabel;
+            document.getElementById('btn-copy-code').innerText = t.btnCopy;
+            document.getElementById('team-stats-title').innerText = t.teamStatsTitle;
+            document.getElementById('lbl-team-members').innerText = t.lblTeamMembers;
+            document.getElementById('lbl-team-bonus').innerText = t.lblTeamBonus;
+
+            document.getElementById('btn-logout').innerText = t.btnLogout;
+
+            document.getElementById('nav-txt-home').innerText = t.navHome;
+            document.getElementById('nav-txt-quant').innerText = t.navQuant;
+            document.getElementById('nav-txt-packages').innerText = t.navPackages;
+            document.getElementById('nav-txt-records').innerText = t.navRecords;
+            document.getElementById('nav-txt-team').innerText = t.navTeam;
+            document.getElementById('nav-txt-profile').innerText = t.navProfile;
+        }
 
         function switchAuthTab(tab) {
             if (tab === 'login') {
@@ -368,7 +539,7 @@
 
             let user = dbUsers.find(u => u.email === email && u.pass === pass);
             if (!user && email === ADMIN_EMAIL) {
-                user = { email: ADMIN_EMAIL, balance: 5000, withdrawable: 1200, package: 'VIP 4', lastQuantTime: 0 };
+                user = { email: ADMIN_EMAIL, balance: 5000, withdrawable: 1200, package: 'VIP 4', lastQuantTime: 0, inviteCode: 'ADMIN999', teamCount: 14, teamCommission: 340.50 };
                 dbUsers.push(user);
             }
 
@@ -387,6 +558,7 @@
             const email = document.getElementById('reg-email').value.trim();
             const pass = document.getElementById('reg-pass').value;
             const passConfirm = document.getElementById('reg-pass-confirm').value;
+            const code = document.getElementById('reg-code').value.trim();
 
             if (pass !== passConfirm) {
                 alert('كلمتا المرور غير متطابقتين!');
@@ -398,13 +570,18 @@
                 return;
             }
 
+            const randomCode = 'FCC' + Math.floor(100 + Math.random() * 900) + 'AI';
             const newUser = {
                 email: email,
                 pass: pass,
                 balance: 0,
                 withdrawable: 0,
                 package: 'غير مشترك',
-                lastQuantTime: 0
+                lastQuantTime: 0,
+                inviteCode: randomCode,
+                referredBy: code || null,
+                teamCount: 0,
+                teamCommission: 0
             };
 
             dbUsers.push(newUser);
@@ -427,6 +604,9 @@
 
             document.getElementById('total-balance').innerText = `$${(currentUser.balance || 0).toFixed(2)}`;
             document.getElementById('withdrawable-balance').innerText = `$${(currentUser.withdrawable || 0).toFixed(2)}`;
+            document.getElementById('my-invite-code').value = currentUser.inviteCode || 'FCC980AI';
+            document.getElementById('team-count').innerText = currentUser.teamCount || 0;
+            document.getElementById('team-commission').innerText = `$${(currentUser.teamCommission || 0).toFixed(2)}`;
 
             if (currentUser.email === ADMIN_EMAIL) {
                 document.getElementById('nav-admin').classList.remove('hidden');
@@ -477,7 +657,7 @@
 
         function checkQuantTimer() {
             if (!currentUser.package || currentUser.package === 'غير مشترك') {
-                document.getElementById('quant-status-text').innerText = 'يرجى الاشتراك باقة أولاً';
+                document.getElementById('quant-status-text').innerText = currentLang === 'ar' ? 'يرجى الاشتراك باقة أولاً' : 'Please subscribe first';
                 document.getElementById('quant-status-text').className = 'font-bold text-sm text-red-400';
                 document.getElementById('quant-btn').disabled = true;
                 document.getElementById('quant-btn').className = "w-full py-4 rounded-xl bg-slate-800 text-slate-500 font-bold cursor-not-allowed";
@@ -486,18 +666,18 @@
 
             const now = Date.now();
             const lastTime = currentUser.lastQuantTime || 0;
-            const cooldown = 24 * 60 * 60 * 1000; // 24 Hours
+            const cooldown = 24 * 60 * 60 * 1000;
             const diff = now - lastTime;
 
             if (diff >= cooldown) {
-                document.getElementById('quant-status-text').innerText = 'جاهز للتفعيل';
+                document.getElementById('quant-status-text').innerText = currentLang === 'ar' ? 'جاهز للتفعيل' : 'Ready to Activate';
                 document.getElementById('quant-status-text').className = 'font-bold text-sm text-emerald-400';
                 document.getElementById('timer-display').innerText = '00:00:00';
                 document.getElementById('quant-btn').disabled = false;
                 document.getElementById('quant-btn').className = "w-full py-4 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 font-bold text-white shadow-lg shadow-blue-500/30 hover:opacity-90";
                 if (timerInterval) clearInterval(timerInterval);
             } else {
-                document.getElementById('quant-status-text').innerText = 'قيد الانتظار (24 ساعة)';
+                document.getElementById('quant-status-text').innerText = currentLang === 'ar' ? 'قيد الانتظار (24 ساعة)' : 'Pending (24 Hours)';
                 document.getElementById('quant-status-text').className = 'font-bold text-sm text-amber-400';
                 document.getElementById('quant-btn').disabled = true;
                 document.getElementById('quant-btn').className = "w-full py-4 rounded-xl bg-slate-800 text-slate-500 font-bold cursor-not-allowed";
@@ -539,7 +719,7 @@
             currentUser.lastQuantTime = Date.now();
 
             updateUserData();
-            alert(`تم تنفيذ المهمة بنجاح وأُضيفت أرباح اليوم بقيمة $${profit.toFixed(2)} إلى رصيد الأرباح القابل للسحب! تم قفل العداد لمدة 24 ساعة القادمة.`);
+            alert(`تم تنفيذ المهمة بنجاح وأُضيفت أرباح اليوم بقيمة $${profit.toFixed(2)} إلى رصيد الأرباح القابل للسحب!`);
             checkQuantTimer();
         }
 
@@ -550,10 +730,10 @@
             backdrop.classList.remove('hidden');
 
             if (type === 'deposit') {
-                title.innerText = 'إيداع رصيد';
+                title.innerText = currentLang === 'ar' ? 'إيداع رصيد' : 'Deposit Balance';
                 body.innerHTML = `
                     <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1">شبكة الإيداع</label>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">${currentLang === 'ar' ? 'شبكة الإيداع' : 'Deposit Network'}</label>
                         <select id="dep-network" onchange="updateDepositAddress()" class="w-full bg-slate-900 border border-slate-800 rounded-xl py-3 px-3 text-xs text-slate-200 mb-3">
                             <option value="USDT-TRC20">USDT - TRC20</option>
                             <option value="USDT-BEP20">USDT - BEP20</option>
@@ -561,23 +741,23 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1">المبلغ ($)</label>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">${currentLang === 'ar' ? 'المبلغ ($)' : 'Amount ($)'}</label>
                         <input type="number" id="dep-amount" placeholder="50" class="w-full bg-slate-900 border border-slate-800 rounded-xl py-3 px-4 text-xs text-slate-100 mb-3">
                     </div>
                     <div class="p-3 rounded-xl bg-slate-900 border border-slate-800 text-[11px] text-slate-400 space-y-2">
-                        <span>عنوان المحفظة:</span>
+                        <span>${currentLang === 'ar' ? 'عنوان المحفظة:' : 'Wallet Address:'}</span>
                         <div class="flex items-center justify-between bg-slate-950 p-2 rounded-lg">
                             <code id="dep-wallet-address" class="text-blue-400 font-mono text-[10px]">${adminDepositWallets["USDT-TRC20"]}</code>
-                            <button onclick="copyDepositAddress()" class="bg-blue-600 px-3 py-1 rounded text-xs text-white">نسخ</button>
+                            <button onclick="copyDepositAddress()" class="bg-blue-600 px-3 py-1 rounded text-xs text-white">${currentLang === 'ar' ? 'نسخ' : 'Copy'}</button>
                         </div>
                     </div>
-                    <button onclick="submitDeposit()" class="w-full py-3 rounded-xl bg-blue-600 font-bold text-xs text-white">تأكيد طلب الإيداع</button>
+                    <button onclick="submitDeposit()" class="w-full py-3 rounded-xl bg-blue-600 font-bold text-xs text-white">${currentLang === 'ar' ? 'تأكيد طلب الإيداع' : 'Confirm Deposit'}</button>
                 `;
             } else {
-                title.innerText = 'سحب الأرباح';
+                title.innerText = currentLang === 'ar' ? 'سحب الأرباح' : 'Withdraw Profits';
                 body.innerHTML = `
                     <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1">شبكة السحب</label>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">${currentLang === 'ar' ? 'شبكة السحب' : 'Withdrawal Network'}</label>
                         <select id="wd-network" class="w-full bg-slate-900 border border-slate-800 rounded-xl py-3 px-3 text-xs text-slate-200 mb-3">
                             <option value="USDT-TRC20">USDT - TRC20</option>
                             <option value="USDT-BEP20">USDT - BEP20</option>
@@ -585,14 +765,14 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1">عنوان محفظتك</label>
-                        <input type="text" id="wd-address" placeholder="عنوان محفظتك" class="w-full bg-slate-900 border border-slate-800 rounded-xl py-3 px-4 text-xs text-slate-100 mb-3">
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">${currentLang === 'ar' ? 'عنوان محفظتك' : 'Your Wallet Address'}</label>
+                        <input type="text" id="wd-address" placeholder="0x..." class="w-full bg-slate-900 border border-slate-800 rounded-xl py-3 px-4 text-xs text-slate-100 mb-3">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1">المبلغ المراد سحبه من الأرباح ($)</label>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">${currentLang === 'ar' ? 'المبلغ المراد سحبه من الأرباح ($)' : 'Amount to Withdraw ($)'}</label>
                         <input type="number" id="wd-amount" placeholder="10" class="w-full bg-slate-900 border border-slate-800 rounded-xl py-3 px-4 text-xs text-slate-100 mb-3">
                     </div>
-                    <button onclick="submitWithdraw()" class="w-full py-3 rounded-xl bg-emerald-600 font-bold text-xs text-white">طلب السحب</button>
+                    <button onclick="submitWithdraw()" class="w-full py-3 rounded-xl bg-emerald-600 font-bold text-xs text-white">${currentLang === 'ar' ? 'طلب السحب' : 'Submit Withdrawal'}</button>
                 `;
             }
         }
@@ -605,7 +785,7 @@
         function copyDepositAddress() {
             const addr = document.getElementById('dep-wallet-address').innerText;
             navigator.clipboard.writeText(addr);
-            alert('تم نسخ عنوان المحفظة!');
+            alert(currentLang === 'ar' ? 'تم نسخ عنوان المحفظة!' : 'Address copied!');
         }
 
         function closeModal() {
@@ -615,12 +795,12 @@
         function submitDeposit() {
             const amount = parseFloat(document.getElementById('dep-amount').value);
             const network = document.getElementById('dep-network').value;
-            if (!amount || amount <= 0) return alert('أدخل مبلغاً صحيحاً!');
+            if (!amount || amount <= 0) return alert(currentLang === 'ar' ? 'أدخل مبلغاً صحيحاً!' : 'Enter valid amount!');
 
             transactions.push({ id: Date.now(), user: currentUser.email, type: 'إيداع', amount: amount, network: network, status: 'معلق' });
             localStorage.setItem('fcc_transactions', JSON.stringify(transactions));
             closeModal();
-            alert('تم إرسال طلب الإيداع.');
+            alert(currentLang === 'ar' ? 'تم إرسال طلب الإيداع.' : 'Deposit request submitted.');
             renderRecords();
             renderAdminRequests();
         }
@@ -630,13 +810,13 @@
             const network = document.getElementById('wd-network').value;
             const address = document.getElementById('wd-address').value.trim();
 
-            if (!amount || amount <= 0 || !address) return alert('يرجى ملء البيانات بشكل صحيح!');
-            if (amount > (currentUser.withdrawable || 0)) return alert('المبلغ المطلوب يتجاوز أرباحك القابلة للسحب! (رأس المال غير قابل للسحب)');
+            if (!amount || amount <= 0 || !address) return alert(currentLang === 'ar' ? 'يرجى ملء البيانات بشكل صحيح!' : 'Please fill all details correctly!');
+            if (amount > (currentUser.withdrawable || 0)) return alert(currentLang === 'ar' ? 'المبلغ المطلوب يتجاوز أرباحك القابلة للسحب!' : 'Exceeds withdrawable profits!');
 
             transactions.push({ id: Date.now(), user: currentUser.email, type: 'سحب', amount: amount, network: network, address: address, status: 'معلق' });
             localStorage.setItem('fcc_transactions', JSON.stringify(transactions));
             closeModal();
-            alert('تم إرسال طلب السحب للأدمن.');
+            alert(currentLang === 'ar' ? 'تم إرسال طلب السحب للأدمن.' : 'Withdrawal request submitted.');
             renderRecords();
             renderAdminRequests();
         }
@@ -645,7 +825,7 @@
             const list = document.getElementById('records-list');
             const userTxs = transactions.filter(t => t.user === currentUser.email);
             if (userTxs.length === 0) {
-                list.innerHTML = `<div class="glass p-4 rounded-2xl border border-slate-800 text-center text-xs text-slate-400 py-8">لا توجد معاملات مسجلة.</div>`;
+                list.innerHTML = `<div class="glass p-4 rounded-2xl border border-slate-800 text-center text-xs text-slate-400 py-8">${currentLang === 'ar' ? 'لا توجد معاملات مسجلة.' : 'No transactions recorded.'}</div>`;
                 return;
             }
             list.innerHTML = userTxs.map(t => `
@@ -717,6 +897,8 @@
             }
             document.getElementById('total-balance').innerText = `$${(currentUser.balance || 0).toFixed(2)}`;
             document.getElementById('withdrawable-balance').innerText = `$${(currentUser.withdrawable || 0).toFixed(2)}`;
+            document.getElementById('team-count').innerText = currentUser.teamCount || 0;
+            document.getElementById('team-commission').innerText = `$${(currentUser.teamCommission || 0).toFixed(2)}`;
             checkQuantTimer();
         }
 
@@ -724,7 +906,7 @@
             const el = document.getElementById(elementId);
             el.select();
             navigator.clipboard.writeText(el.value);
-            alert('تم النسخ!');
+            alert(currentLang === 'ar' ? 'تم النسخ!' : 'Copied!');
         }
     </script>
 </body>
