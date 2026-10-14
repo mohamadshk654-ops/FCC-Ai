@@ -293,15 +293,27 @@
                     </div>
                     <div>
                         <h2 class="text-base font-bold text-white">فريق الإحالات والترويج</h2>
-                        <p class="text-xs text-slate-400 mt-1">ادع أصدقائك واحصل على مكاسب إضافية من أرباح الفريق</p>
+                        <p class="text-xs text-slate-400 mt-1">شارِك كود الدعوة ورابطك مع أصدقائك للحصول على مكافآت إضافية</p>
                     </div>
+
+                    <!-- Invite Code Box -->
                     <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-2 text-right">
-                        <span class="text-xs text-slate-400 block">رابط الدعوة الخاص بك:</span>
+                        <span class="text-xs text-slate-400 block font-semibold"><i class="fa-solid fa-ticket text-amber-400 ml-1"></i> كود الدعوة الخاص بك:</span>
                         <div class="flex gap-2">
-                            <input type="text" readonly id="ref-link-input" value="https://mohamadshk654-ops.github.io/?ref=USER" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-blue-400 focus:outline-none">
-                            <button onclick="copyRefLink()" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold transition-all">نسخ</button>
+                            <input type="text" readonly id="my-invite-code" value="------" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-amber-400 font-bold font-mono focus:outline-none">
+                            <button onclick="copyInviteCode()" class="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white rounded-xl text-xs font-bold transition-all shrink-0">نسخ الكود</button>
                         </div>
                     </div>
+
+                    <!-- Invite Link Box -->
+                    <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-2 text-right">
+                        <span class="text-xs text-slate-400 block font-semibold"><i class="fa-solid fa-link text-blue-400 ml-1"></i> رابط الدعوة المباشر:</span>
+                        <div class="flex gap-2">
+                            <input type="text" readonly id="ref-link-input" value="https://mohamadshk654-ops.github.io/?ref=USER" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-blue-400 font-mono focus:outline-none">
+                            <button onclick="copyRefLink()" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold transition-all shrink-0">نسخ الرابط</button>
+                        </div>
+                    </div>
+
                     <div class="grid grid-cols-2 gap-3 pt-2">
                         <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800">
                             <span class="text-[11px] text-slate-400 block">إجمالي أعضاء الفريق</span>
@@ -415,12 +427,16 @@
                 const userCredential = await window.fbAuthOps.createUserWithEmailAndPassword(window.firebaseAuth, email, pass);
                 const user = userCredential.user;
 
+                // Generate Unique Invite Code for User
+                const generatedCode = 'FCC-' + Math.floor(100000 + Math.random() * 900000);
+
                 await window.fbDbOps.setDoc(window.fbDbOps.doc(window.firebaseDb, "users", user.uid), {
                     email: email,
                     balance: 0,
                     withdrawable: 0,
                     package: 'غير مشترك',
-                    inviteCode: inviteCode || 'none',
+                    myInviteCode: generatedCode,
+                    usedInviteCode: inviteCode || 'none',
                     createdAt: new Date()
                 });
 
@@ -470,6 +486,12 @@
                                     document.getElementById('total-balance').innerText = `$${(currentUserDoc.balance || 0).toFixed(2)}`;
                                     document.getElementById('withdrawable-balance').innerText = `$${(currentUserDoc.withdrawable || 0).toFixed(2)}`;
                                     document.getElementById('quant-current-package').innerText = currentUserDoc.package || 'غير مشترك';
+                                    
+                                    // Display invite code
+                                    const codeInput = document.getElementById('my-invite-code');
+                                    if(codeInput) {
+                                        codeInput.value = currentUserDoc.myInviteCode || ('FCC-' + user.uid.substring(0,6).toUpperCase());
+                                    }
                                 }
                             });
 
@@ -539,6 +561,12 @@
             } catch(err) {
                 alert('خطأ في التحديث (قد يتطلب إعادة تسجيل الدخول): ' + err.message);
             }
+        }
+
+        function copyInviteCode() {
+            const copyText = document.getElementById('my-invite-code');
+            navigator.clipboard.writeText(copyText.value);
+            alert('تم نسخ كود الدعوة بنجاح!');
         }
 
         function copyRefLink() {
@@ -618,20 +646,25 @@
         async function submitDeposit() {
             const amount = parseFloat(document.getElementById('dep-amount').value);
             const network = document.getElementById('dep-network').value;
-            if (!amount || amount <= 0) return alert('أدخل مبلغاً صحيحاً');
+            if (!amount || amount <= 0) return alert('أدخل مبلغاً صحيحاً للإيداع');
 
-            await window.fbDbOps.addDoc(window.fbDbOps.collection(window.firebaseDb, "transactions"), {
-                user: window.firebaseAuth.currentUser.email,
-                userId: window.firebaseAuth.currentUser.uid,
-                type: 'إيداع',
-                amount: amount,
-                network: network,
-                status: 'معلق',
-                createdAt: new Date()
-            });
+            try {
+                await window.fbDbOps.addDoc(window.fbDbOps.collection(window.firebaseDb, "transactions"), {
+                    user: window.firebaseAuth.currentUser.email,
+                    userId: window.firebaseAuth.currentUser.uid,
+                    type: 'إيداع',
+                    amount: amount,
+                    network: network,
+                    status: 'معلق',
+                    createdAt: new Date()
+                });
 
-            closeModal();
-            alert('تم إرسال طلب الإيداع للسحابة! يظهر فوراً لدى الأدمن للمراجعة.');
+                closeModal();
+                alert(`✅ تم إرسال طلب الإيداع بقيمة $${amount.toFixed(2)} بنجاح!\n\nطلبك الآن قيد المراجعة في السحابة وسوف يظهر في لوحة الأدمن فوراً.`);
+                switchTab('records');
+            } catch (err) {
+                alert('حدث خطأ أثناء تقديم الطلب: ' + err.message);
+            }
         }
 
         async function submitWithdraw() {
@@ -640,18 +673,23 @@
             if (!amount || amount <= 0 || !address) return alert('أدخل التفاصيل كاملة وصحيحة');
             if (amount > (currentUserDoc.withdrawable || 0)) return alert('المبلغ المطلوب أكبر من أرباحك القابلة للسحب');
 
-            await window.fbDbOps.addDoc(window.fbDbOps.collection(window.firebaseDb, "transactions"), {
-                user: window.firebaseAuth.currentUser.email,
-                userId: window.firebaseAuth.currentUser.uid,
-                type: 'سحب',
-                amount: amount,
-                address: address,
-                status: 'معلق',
-                createdAt: new Date()
-            });
+            try {
+                await window.fbDbOps.addDoc(window.fbDbOps.collection(window.firebaseDb, "transactions"), {
+                    user: window.firebaseAuth.currentUser.email,
+                    userId: window.firebaseAuth.currentUser.uid,
+                    type: 'سحب',
+                    amount: amount,
+                    address: address,
+                    status: 'معلق',
+                    createdAt: new Date()
+                });
 
-            closeModal();
-            alert('تم إرسال طلب السحب للأدمن بنجاح وفي انتظار المراجعة.');
+                closeModal();
+                alert(`✅ تم إرسال طلب السحب بقيمة $${amount.toFixed(2)} بنجاح!\n\nسيتم التحقق من العنوان ومراجعة الطلب بواسطة الأدمن.`);
+                switchTab('records');
+            } catch (err) {
+                alert('حدث خطأ أثناء تقديم الطلب: ' + err.message);
+            }
         }
 
         function listenToUserRecords(email) {
@@ -714,21 +752,31 @@
         }
 
         async function approveAdminReq(docId, userId, type, amount) {
-            await window.fbDbOps.updateDoc(window.fbDbOps.doc(window.firebaseDb, "transactions", docId), { status: 'مكتمل' });
-            const userRef = window.fbDbOps.doc(window.firebaseDb, "users", userId);
-            const userSnap = await window.fbDbOps.getDoc(userRef);
-            if (userSnap.exists()) {
-                const uData = userSnap.data();
-                if (type === 'إيداع') {
-                    await window.fbDbOps.updateDoc(userRef, { balance: (uData.balance || 0) + amount });
-                } else if (type === 'سحب') {
-                    await window.fbDbOps.updateDoc(userRef, { 
-                        withdrawable: Math.max(0, (uData.withdrawable || 0) - amount),
-                        balance: Math.max(0, (uData.balance || 0) - amount)
-                    });
+            try {
+                await window.fbDbOps.updateDoc(window.fbDbOps.doc(window.firebaseDb, "transactions", docId), { status: 'مكتمل' });
+                const userRef = window.fbDbOps.doc(window.firebaseDb, "users", userId);
+                const userSnap = await window.fbDbOps.getDoc(userRef);
+                
+                if (userSnap.exists()) {
+                    const uData = userSnap.data();
+                    if (type === 'إيداع') {
+                        // إضافة الإيداع لرصيد الحساب الإجمالي والرصيد القابل للسحب
+                        await window.fbDbOps.updateDoc(userRef, { 
+                            balance: (uData.balance || 0) + amount,
+                            withdrawable: (uData.withdrawable || 0) + amount
+                        });
+                    } else if (type === 'سحب') {
+                        // خصم القيمة المسحوبة من الرصيد القابل للسحب والإجمالي
+                        await window.fbDbOps.updateDoc(userRef, { 
+                            withdrawable: Math.max(0, (uData.withdrawable || 0) - amount),
+                            balance: Math.max(0, (uData.balance || 0) - amount)
+                        });
+                    }
                 }
+                alert('تمت الموافقة بنجاح وتحديث رصيد المستخدم فوراً!');
+            } catch (err) {
+                alert('خطأ في الموافقة: ' + err.message);
             }
-            alert('تمت الموافقة بنجاح وتحديث رصيد المستخدم فوراً!');
         }
 
         async function rejectAdminReq(docId) {
