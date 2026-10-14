@@ -10,6 +10,32 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts (Cairo) -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Firebase SDK (Configured with your project: fcc-ai-741b5) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, updateDoc, collection, addDoc, onSnapshot, query, where } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCg_mn94W-MxZNfv7JkdJqb-M",
+            authDomain: "fcc-ai-741b5.firebaseapp.com",
+            projectId: "fcc-ai-741b5",
+            storageBucket: "fcc-ai-741b5.firebasestorage.app",
+            messagingSenderId: "315904957001",
+            appId: "1:315904957001:web:..."
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        window.firebaseAuth = auth;
+        window.firebaseDb = db;
+        window.fbAuthOps = { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged };
+        window.fbDbOps = { doc, setDoc, getDoc, updateDoc, collection, addDoc, onSnapshot, query, where };
+    </script>
+
     <style>
         body { font-family: 'Cairo', sans-serif; }
         .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
@@ -28,9 +54,9 @@
                     <i class="fa-solid fa-globe text-3xl text-white"></i>
                 </div>
                 <h1 class="text-3xl font-black tracking-wider flex items-center justify-center gap-2">
-                    FCC-Ai <i class="fa-solid fa-circle-check text-blue-500 text-xl" title="Global Trusted Platform"></i>
+                    FCC-Ai <i class="fa-solid fa-circle-check text-blue-500 text-xl" title="Global Cloud Network"></i>
                 </h1>
-                <p id="txt-auth-subtitle" class="text-slate-400 text-sm mt-1">منصة التداول الكمي العالمية المدعومة بالذكاء الاصطناعي</p>
+                <p class="text-slate-400 text-sm mt-1">منصة التداول الكمي العالمية السحابية</p>
             </div>
 
             <div class="flex rounded-xl bg-slate-900/80 p-1 mb-6 border border-slate-800">
@@ -38,54 +64,49 @@
                 <button onclick="switchAuthTab('register')" id="tab-register-btn" class="flex-1 py-2.5 rounded-lg text-sm font-bold transition-all text-slate-400 hover:text-white">حساب عالمي جديد</button>
             </div>
 
+            <!-- Login Form -->
             <form id="login-form" onsubmit="handleLogin(event)" class="space-y-4">
                 <div>
-                    <label id="lbl-login-email" class="block text-xs font-semibold text-slate-300 mb-1">البريد الإلكتروني العالمي</label>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">البريد الإلكتروني</label>
                     <div class="relative">
                         <span class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-500"><i class="fa-solid fa-envelope"></i></span>
-                        <input type="email" id="login-email" required placeholder="global@example.com" class="w-full bg-slate-900/90 border border-slate-800 rounded-xl py-3 pr-10 pl-4 text-sm text-slate-100 focus:outline-none focus:border-blue-500 transition-colors">
+                        <input type="email" id="login-email" required placeholder="name@example.com" class="w-full bg-slate-900/90 border border-slate-800 rounded-xl py-3 pr-10 pl-4 text-sm text-slate-100 focus:outline-none focus:border-blue-500">
                     </div>
                 </div>
                 <div>
-                    <label id="lbl-login-pass" class="block text-xs font-semibold text-slate-300 mb-1">كلمة المرور</label>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">كلمة المرور</label>
                     <div class="relative">
                         <span class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-500"><i class="fa-solid fa-lock"></i></span>
-                        <input type="password" id="login-pass" required placeholder="••••••••" class="w-full bg-slate-900/90 border border-slate-800 rounded-xl py-3 pr-10 pl-4 text-sm text-slate-100 focus:outline-none focus:border-blue-500 transition-colors">
+                        <input type="password" id="login-pass" required placeholder="••••••••" class="w-full bg-slate-900/90 border border-slate-800 rounded-xl py-3 pr-10 pl-4 text-sm text-slate-100 focus:outline-none focus:border-blue-500">
                     </div>
                 </div>
-                <button type="submit" id="btn-login-submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 font-bold text-white shadow-lg shadow-blue-500/30 hover:opacity-90 transition-opacity">دخول المنصة</button>
+                <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 font-bold text-white shadow-lg shadow-blue-500/30">دخول المنصة</button>
             </form>
 
+            <!-- Register Form -->
             <form id="register-form" onsubmit="handleRegister(event)" class="space-y-4 hidden">
                 <div>
-                    <label id="lbl-reg-email" class="block text-xs font-semibold text-slate-300 mb-1">البريد الإلكتروني</label>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">البريد الإلكتروني</label>
                     <div class="relative">
                         <span class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-500"><i class="fa-solid fa-envelope"></i></span>
-                        <input type="email" id="reg-email" required placeholder="global@example.com" class="w-full bg-slate-900/90 border border-slate-800 rounded-xl py-3 pr-10 pl-4 text-sm text-slate-100 focus:outline-none focus:border-blue-500 transition-colors">
+                        <input type="email" id="reg-email" required placeholder="name@example.com" class="w-full bg-slate-900/90 border border-slate-800 rounded-xl py-3 pr-10 pl-4 text-sm text-slate-100 focus:outline-none focus:border-blue-500">
                     </div>
                 </div>
                 <div>
-                    <label id="lbl-reg-pass" class="block text-xs font-semibold text-slate-300 mb-1">كلمة المرور</label>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">كلمة المرور</label>
                     <div class="relative">
                         <span class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-500"><i class="fa-solid fa-lock"></i></span>
-                        <input type="password" id="reg-pass" required placeholder="••••••••" class="w-full bg-slate-900/90 border border-slate-800 rounded-xl py-3 pr-10 pl-4 text-sm text-slate-100 focus:outline-none focus:border-blue-500 transition-colors">
+                        <input type="password" id="reg-pass" required placeholder="••••••••" class="w-full bg-slate-900/90 border border-slate-800 rounded-xl py-3 pr-10 pl-4 text-sm text-slate-100 focus:outline-none focus:border-blue-500">
                     </div>
                 </div>
                 <div>
-                    <label id="lbl-reg-pass-confirm" class="block text-xs font-semibold text-slate-300 mb-1">تأكيد كلمة المرور</label>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">تأكيد كلمة المرور</label>
                     <div class="relative">
                         <span class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-500"><i class="fa-solid fa-lock-open"></i></span>
-                        <input type="password" id="reg-pass-confirm" required placeholder="••••••••" class="w-full bg-slate-900/90 border border-slate-800 rounded-xl py-3 pr-10 pl-4 text-sm text-slate-100 focus:outline-none focus:border-blue-500 transition-colors">
+                        <input type="password" id="reg-pass-confirm" required placeholder="••••••••" class="w-full bg-slate-900/90 border border-slate-800 rounded-xl py-3 pr-10 pl-4 text-sm text-slate-100 focus:outline-none focus:border-blue-500">
                     </div>
                 </div>
-                <div>
-                    <label id="lbl-reg-code" class="block text-xs font-semibold text-slate-300 mb-1">كود الدعوة العالمي (اختياري)</label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-500"><i class="fa-solid fa-ticket"></i></span>
-                        <input type="text" id="reg-code" placeholder="Referral Code" class="w-full bg-slate-900/90 border border-slate-800 rounded-xl py-3 pr-10 pl-4 text-sm text-slate-100 focus:outline-none focus:border-blue-500 transition-colors">
-                    </div>
-                </div>
-                <button type="submit" id="btn-reg-submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 font-bold text-white shadow-lg shadow-blue-500/30 hover:opacity-90 transition-opacity">إنشاء حساب عالمي</button>
+                <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 font-bold text-white shadow-lg shadow-blue-500/30">إنشاء الحساب في السحابة</button>
             </form>
         </div>
     </div>
@@ -96,194 +117,89 @@
         <!-- Header -->
         <header class="glass-dark sticky top-0 z-40 border-b border-slate-800 px-4 py-3">
             <div class="max-w-4xl mx-auto flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                    <div class="flex items-center gap-1.5">
-                        <span class="font-black text-xl tracking-wide bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">FCC-Ai</span>
-                        <span class="text-[9px] bg-blue-500/20 text-blue-400 font-bold px-1.5 py-0.5 rounded border border-blue-500/30">GLOBAL</span>
-                    </div>
-                    <select id="lang-select" onchange="changeLanguage(this.value)" class="bg-slate-900 border border-slate-800 rounded-lg text-xs py-1 px-2 text-slate-300 focus:outline-none focus:border-blue-500">
-                        <option value="ar">العربية</option>
-                        <option value="en">English</option>
-                    </select>
+                <div class="flex items-center gap-2">
+                    <span class="font-black text-xl tracking-wide bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">FCC-Ai</span>
+                    <span class="text-[9px] bg-emerald-500/20 text-emerald-400 font-bold px-1.5 py-0.5 rounded border border-emerald-500/30">ONLINE</span>
                 </div>
 
                 <div class="flex items-center gap-2 bg-slate-900/80 border border-slate-800 rounded-full py-1.5 px-3">
                     <div class="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center text-xs font-bold text-white" id="user-avatar-initial">U</div>
                     <span id="header-username" class="text-xs font-bold text-slate-200 max-w-[90px] truncate">User</span>
-                    <i class="fa-solid fa-circle-check text-blue-500 text-xs"></i>
                 </div>
             </div>
         </header>
 
-        <!-- Announcement Ticker -->
-        <div class="bg-blue-950/60 border-b border-blue-500/20 py-2 px-4 text-xs text-blue-300 overflow-hidden relative">
-            <div class="max-w-4xl mx-auto flex items-center gap-2">
-                <span class="bg-blue-600 text-white font-bold px-2 py-0.5 rounded text-[10px] shrink-0"><i class="fa-solid fa-globe ml-1"></i> GLOBAL NEWS</span>
-                <marquee class="font-medium" behavior="scroll" direction="right" scrollamount="5" id="announcement-text">
-                    🌍 Welcome to FCC-Ai Global Network. AI quantitative tasks run 24/7 worldwide. Fast secure deposits and withdrawals processed instantly by management.
-                </marquee>
-            </div>
-        </div>
-
-        <!-- ================= DYNAMIC PAGES ================= -->
+        <!-- Pages Content -->
         <main class="flex-1 max-w-4xl w-full mx-auto p-4">
             
-            <!-- 1. HOME -->
+            <!-- HOME -->
             <section id="page-home" class="space-y-6">
                 <div class="glass p-6 rounded-3xl relative overflow-hidden glow-blue border border-blue-500/20">
                     <div class="grid grid-cols-2 gap-4 mb-6">
                         <div>
-                            <p id="lbl-total-bal" class="text-xs text-slate-400 mb-1">إجمالي رصيد الحساب</p>
+                            <p class="text-xs text-slate-400 mb-1">إجمالي رصيد الحساب</p>
                             <h2 class="text-2xl font-black text-white" id="total-balance">$0.00</h2>
                         </div>
                         <div>
-                            <p id="lbl-with-bal" class="text-xs text-slate-400 mb-1">الأرباح القابلة للسحب</p>
+                            <p class="text-xs text-slate-400 mb-1">الرصيد القابل للسحب (الأرباح)</p>
                             <h2 class="text-2xl font-black text-emerald-400" id="withdrawable-balance">$0.00</h2>
                         </div>
                     </div>
                     <div class="grid grid-cols-2 gap-3">
-                        <button onclick="openModal('deposit')" id="btn-home-deposit" class="py-3 rounded-xl bg-blue-600 font-bold text-xs flex items-center justify-center gap-2 hover:bg-blue-500 transition-colors shadow-lg shadow-blue-600/30">
-                            <i class="fa-solid fa-wallet"></i> إيداع عالمي
-                        </button>
-                        <button onclick="openModal('withdraw')" id="btn-home-withdraw" class="py-3 rounded-xl bg-slate-900 border border-slate-700 font-bold text-xs flex items-center justify-center gap-2 hover:bg-slate-800 transition-colors">
-                            <i class="fa-solid fa-money-bill-transfer"></i> سحب الأرباح
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Live Markets -->
-                <div>
-                    <h3 id="lbl-live-prices" class="text-sm font-bold text-slate-300 mb-3 flex items-center gap-2"><i class="fa-solid fa-chart-line text-blue-500"></i> أسواق العملات الرقمية العالمية</h3>
-                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                        <div class="glass p-3.5 rounded-2xl border border-slate-800 flex items-center justify-between">
-                            <div><span class="text-xs font-bold text-slate-300 block">BTC / USDT</span><span class="text-sm font-black text-white">$67,420.00</span></div>
-                            <span class="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded-lg">+3.42%</span>
-                        </div>
-                        <div class="glass p-3.5 rounded-2xl border border-slate-800 flex items-center justify-between">
-                            <div><span class="text-xs font-bold text-slate-300 block">ETH / USDT</span><span class="text-sm font-black text-white">$3,540.50</span></div>
-                            <span class="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded-lg">+2.15%</span>
-                        </div>
-                        <div class="glass p-3.5 rounded-2xl border border-slate-800 flex items-center justify-between">
-                            <div><span class="text-xs font-bold text-slate-300 block">SOL / USDT</span><span class="text-sm font-black text-white">$154.80</span></div>
-                            <span class="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded-lg">+5.12%</span>
-                        </div>
+                        <button onclick="openModal('deposit')" class="py-3 rounded-xl bg-blue-600 font-bold text-xs flex items-center justify-center gap-2 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/30"><i class="fa-solid fa-wallet"></i> إيداع رصيد</button>
+                        <button onclick="openModal('withdraw')" class="py-3 rounded-xl bg-slate-900 border border-slate-700 font-bold text-xs flex items-center justify-center gap-2 hover:bg-slate-800 text-white"><i class="fa-solid fa-money-bill-transfer"></i> سحب الأرباح</button>
                     </div>
                 </div>
             </section>
 
-            <!-- 2. QUANTITATIVE -->
+            <!-- QUANT -->
             <section id="page-quant" class="space-y-6 hidden">
-                <div class="text-center max-w-md mx-auto py-6">
-                    <div class="w-20 h-20 rounded-3xl bg-gradient-to-tr from-blue-600 to-cyan-400 mx-auto flex items-center justify-center mb-4 glow-blue">
-                        <i class="fa-solid fa-microchip text-4xl text-white"></i>
-                    </div>
-                    <h2 class="text-xl font-bold mb-1">محرك التحديد الكمي العالمي</h2>
-                    <p class="text-xs text-slate-400">نفذ مهمتك كل 24 ساعة لجني أرباح الذكاء الاصطناعي.</p>
-                </div>
-
                 <div class="glass p-6 rounded-3xl text-center space-y-6 border border-slate-800">
-                    <div class="flex justify-around items-center">
-                        <div>
-                            <span class="text-xs text-slate-400 block mb-1">الباقة النشطة</span>
-                            <span id="quant-current-package" class="font-bold text-sm text-blue-400">غير مشترك</span>
-                        </div>
-                        <div class="h-8 w-px bg-slate-800"></div>
-                        <div>
-                            <span class="text-xs text-slate-400 block mb-1">عداد التوقيت</span>
-                            <span id="quant-status-text" class="font-bold text-sm text-amber-400">جاهز للتفعيل</span>
-                        </div>
-                    </div>
-
-                    <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800">
-                        <div id="timer-display" class="text-3xl font-black text-white mb-2">00:00:00</div>
-                        <p class="text-xs text-slate-400">المهمة متاحة كل 24 ساعة عالمياً</p>
-                    </div>
-
-                    <button onclick="startQuantTask()" id="quant-btn" class="w-full py-4 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 font-bold text-white shadow-lg shadow-blue-500/30">
-                        بدء التحديد الكمي الآن
-                    </button>
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-blue-600 to-cyan-400 mx-auto flex items-center justify-center glow-blue"><i class="fa-solid fa-microchip text-3xl text-white"></i></div>
+                    <h2 class="text-lg font-bold">محرك التحديد الكمي</h2>
+                    <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800"><span id="quant-current-package" class="text-blue-400 font-bold">غير مشترك</span></div>
+                    <button onclick="startQuantTask()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 font-bold text-white">بدء المهمة اليومية (24H)</button>
                 </div>
             </section>
 
-            <!-- 3. PACKAGES -->
+            <!-- PACKAGES -->
             <section id="page-packages" class="space-y-6 hidden">
-                <div class="text-center max-w-md mx-auto">
-                    <h2 class="text-xl font-bold mb-1">الباقات الاستثمارية</h2>
-                    <p class="text-xs text-slate-400">اختر باقتك للبدء بالتداول الكمي العالمي.</p>
-                </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="glass p-5 rounded-3xl border border-blue-500/20 flex flex-col justify-between">
-                        <div>
-                            <span class="text-xs font-bold text-blue-400 bg-blue-500/10 px-3 py-1 rounded-full">VIP 1</span>
-                            <h3 class="text-2xl font-black text-white mt-3">$10 <span class="text-xs font-normal text-slate-400">/ الأساسية</span></h3>
-                            <p class="text-xs text-slate-300 mt-2">الربح اليومي: <strong class="text-emerald-400">$0.40 (4%)</strong></p>
-                        </div>
+                        <div><span class="text-xs font-bold text-blue-400 bg-blue-500/10 px-3 py-1 rounded-full">VIP 1</span><h3 class="text-2xl font-black text-white mt-3">$10</h3><p class="text-xs text-slate-300 mt-2">الربح اليومي: <strong class="text-emerald-400">$0.40 (4%)</strong></p></div>
                         <button onclick="subscribePackage('VIP 1', 10)" class="mt-6 w-full py-3 rounded-xl bg-blue-600 font-bold text-xs text-white">اشترك الآن</button>
                     </div>
                     <div class="glass p-5 rounded-3xl border border-cyan-500/30 flex flex-col justify-between glow-blue">
-                        <div>
-                            <span class="text-xs font-bold text-cyan-400 bg-cyan-500/10 px-3 py-1 rounded-full">VIP 2</span>
-                            <h3 class="text-2xl font-black text-white mt-3">$50 <span class="text-xs font-normal text-slate-400">/ النمو</span></h3>
-                            <p class="text-xs text-slate-300 mt-2">الربح اليومي: <strong class="text-emerald-400">$4.00 (8%)</strong></p>
-                        </div>
+                        <div><span class="text-xs font-bold text-cyan-400 bg-cyan-500/10 px-3 py-1 rounded-full">VIP 2</span><h3 class="text-2xl font-black text-white mt-3">$50</h3><p class="text-xs text-slate-300 mt-2">الربح اليومي: <strong class="text-emerald-400">$4.00 (8%)</strong></p></div>
                         <button onclick="subscribePackage('VIP 2', 50)" class="mt-6 w-full py-3 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 font-bold text-xs text-white">اشترك الآن</button>
                     </div>
                 </div>
             </section>
 
-            <!-- 4. RECORDS -->
+            <!-- RECORDS -->
             <section id="page-records" class="space-y-6 hidden">
-                <div class="text-center max-w-md mx-auto">
-                    <h2 class="text-xl font-bold mb-1">سجل المعاملات</h2>
-                    <p class="text-xs text-slate-400">متابعة حالة الإيداعات والسحوبات العالمية الخاصة بك.</p>
-                </div>
+                <h2 class="text-base font-bold text-slate-200">سجل المعاملات السحابية</h2>
                 <div class="space-y-3" id="records-list"></div>
             </section>
 
-            <!-- 5. TEAM -->
-            <section id="page-team" class="space-y-6 hidden">
-                <div class="glass p-6 rounded-3xl border border-blue-500/20 glow-blue space-y-4">
-                    <span class="text-xs text-slate-400 block">رابط الإحالة العالمي الخاص بك</span>
-                    <div class="flex items-center gap-2">
-                        <input type="text" readonly id="my-invite-link" class="w-full bg-slate-900 border border-slate-800 rounded-xl py-3 px-4 font-mono text-xs text-slate-300 truncate">
-                        <button onclick="copyInviteLink()" class="bg-blue-600 px-5 py-3 rounded-xl text-xs font-bold text-white">نسخ</button>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 6. PROFILE -->
+            <!-- PROFILE -->
             <section id="page-profile" class="space-y-6 hidden">
                 <div class="glass p-6 rounded-3xl border border-slate-800 space-y-4">
-                    <h3 class="font-bold text-lg text-white" id="profile-email">email@example.com</h3>
-                    <button onclick="logout()" class="w-full py-3.5 rounded-xl bg-red-500/10 text-red-400 font-bold text-xs border border-red-500/20">تسجيل خروج</button>
+                    <h3 class="font-bold text-base text-white" id="profile-email">email@example.com</h3>
+                    <button onclick="logout()" class="w-full py-3 rounded-xl bg-red-500/10 text-red-400 font-bold text-xs border border-red-500/20">تسجيل الخروج</button>
                 </div>
             </section>
 
-            <!-- 7. ADMIN DASHBOARD (nnnnaaatttnanooo@gmail.com) -->
+            <!-- ADMIN DASHBOARD (nnnnaaatttnanooo@gmail.com) -->
             <section id="page-admin" class="space-y-6 hidden">
                 <div class="glass p-6 rounded-3xl border border-amber-500/30 space-y-6">
-                    <div class="flex justify-between items-center pb-4 border-b border-slate-800">
-                        <h2 class="text-lg font-bold text-white flex items-center gap-2"><i class="fa-solid fa-user-shield text-amber-400"></i> لوحة تحكم الأدمن العالمية</h2>
-                        <span class="text-xs bg-amber-500/10 text-amber-400 font-mono px-3 py-1 rounded-full border border-amber-500/20">nnnnaaatttnanooo@gmail.com</span>
+                    <div class="flex justify-between items-center pb-3 border-b border-slate-800">
+                        <h2 class="text-base font-bold text-amber-400"><i class="fa-solid fa-shield-halved ml-1"></i> لوحة الأدمن المباشرة</h2>
+                        <span class="text-xs bg-amber-500/10 text-amber-300 px-2.5 py-1 rounded-full">nnnnaaatttnanooo@gmail.com</span>
                     </div>
 
-                    <div class="grid grid-cols-3 gap-3">
-                        <div class="bg-slate-900 p-3 rounded-2xl border border-slate-800">
-                            <span class="text-[11px] text-slate-400 block">إجمالي المستخدمين</span>
-                            <strong id="admin-total-users" class="text-lg text-white">0</strong>
-                        </div>
-                        <div class="bg-slate-900 p-3 rounded-2xl border border-slate-800">
-                            <span class="text-[11px] text-slate-400 block">إجمالي المعاملات</span>
-                            <strong id="admin-total-txs" class="text-lg text-blue-400">0</strong>
-                        </div>
-                        <div class="bg-slate-900 p-3 rounded-2xl border border-slate-800">
-                            <span class="text-[11px] text-slate-400 block">الطلبات المعلقة</span>
-                            <strong id="admin-pending-txs" class="text-lg text-amber-400">0</strong>
-                        </div>
-                    </div>
-
-                    <div>
-                        <h3 class="text-sm font-bold text-slate-200 mb-3">طلبات الإيداع والسحب العالمية (بانتظار موافقتك)</h3>
+                    <div class="space-y-3">
+                        <h3 class="text-xs font-bold text-slate-200">طلبات الإيداع والسحب العالمية المعلقة</h3>
                         <div id="admin-requests-list" class="space-y-3"></div>
                     </div>
                 </div>
@@ -291,116 +207,117 @@
 
         </main>
 
-        <!-- NAV BAR -->
-        <nav class="fixed bottom-0 left-0 right-0 glass-dark border-t border-slate-800 py-2 px-4 z-40">
+        <!-- Nav bar -->
+        <nav class="fixed bottom-0 left-0 right-0 glass-dark border-t border-slate-800 py-2.5 px-4 z-40">
             <div class="max-w-md mx-auto flex justify-around items-center">
-                <button onclick="switchTab('home')" class="flex flex-col items-center gap-1 text-blue-400"><i class="fa-solid fa-house text-lg"></i><span class="text-[10px] font-bold">الرئيسية</span></button>
-                <button onclick="switchTab('quant')" class="flex flex-col items-center gap-1 text-slate-400"><i class="fa-solid fa-microchip text-lg"></i><span class="text-[10px] font-bold">التداول</span></button>
-                <button onclick="switchTab('packages')" class="flex flex-col items-center gap-1 text-slate-400"><i class="fa-solid fa-gem text-lg"></i><span class="text-[10px] font-bold">الباقات</span></button>
-                <button onclick="switchTab('records')" class="flex flex-col items-center gap-1 text-slate-400"><i class="fa-solid fa-clock-rotate-left text-lg"></i><span class="text-[10px] font-bold">السجل</span></button>
-                <button onclick="switchTab('team')" class="flex flex-col items-center gap-1 text-slate-400"><i class="fa-solid fa-users text-lg"></i><span class="text-[10px] font-bold">الفريق</span></button>
-                <button onclick="switchTab('profile')" class="flex flex-col items-center gap-1 text-slate-400"><i class="fa-solid fa-user text-lg"></i><span class="text-[10px] font-bold">حسابي</span></button>
-                <button onclick="switchTab('admin')" id="nav-admin" class="hidden flex flex-col items-center gap-1 text-amber-400"><i class="fa-solid fa-shield-cat text-lg"></i><span class="text-[10px] font-bold">الأدمن</span></button>
+                <button onclick="switchTab('home')" class="flex flex-col items-center text-blue-400"><i class="fa-solid fa-house text-lg"></i><span class="text-[10px] mt-1 font-bold">الرئيسية</span></button>
+                <button onclick="switchTab('quant')" class="flex flex-col items-center text-slate-400"><i class="fa-solid fa-microchip text-lg"></i><span class="text-[10px] mt-1 font-bold">التداول</span></button>
+                <button onclick="switchTab('packages')" class="flex flex-col items-center text-slate-400"><i class="fa-solid fa-gem text-lg"></i><span class="text-[10px] mt-1 font-bold">الباقات</span></button>
+                <button onclick="switchTab('records')" class="flex flex-col items-center text-slate-400"><i class="fa-solid fa-clock-rotate-left text-lg"></i><span class="text-[10px] mt-1 font-bold">السجل</span></button>
+                <button onclick="switchTab('profile')" class="flex flex-col items-center text-slate-400"><i class="fa-solid fa-user text-lg"></i><span class="text-[10px] mt-1 font-bold">حسابي</span></button>
+                <button onclick="switchTab('admin')" id="nav-admin" class="hidden flex flex-col items-center text-amber-400"><i class="fa-solid fa-shield-cat text-lg"></i><span class="text-[10px] mt-1 font-bold">الأدمن</span></button>
             </div>
         </nav>
     </div>
 
-    <!-- MODAL -->
+    <!-- Modal -->
     <div id="modal-backdrop" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="glass-dark w-full max-w-md p-6 rounded-3xl border border-slate-800 space-y-4">
-            <div class="flex justify-between items-center pb-3 border-b border-slate-800">
-                <h3 class="font-bold text-sm text-white" id="modal-title">معاملة</h3>
-                <button onclick="closeModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+                <h3 class="font-bold text-sm text-white" id="modal-title">طلب معاملة</h3>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <div id="modal-body" class="space-y-4"></div>
         </div>
     </div>
 
     <script>
-        let currentLang = localStorage.getItem('fcc_lang') || 'ar';
-        let currentUser = JSON.parse(localStorage.getItem('fcc_current_user')) || null;
-        let dbUsers = JSON.parse(localStorage.getItem('fcc_db_users')) || [];
-        let transactions = JSON.parse(localStorage.getItem('fcc_transactions')) || [];
-
         const ADMIN_EMAIL = "nnnnaaatttnanooo@gmail.com";
-        const adminWallets = {
-            "USDT-TRC20": "TY_Global_TRC20_Official_Wallet_Address_999",
-            "USDT-BEP20": "0xGlobal_BEP20_Official_Wallet_Address_888",
-            "USDT-ERC20": "0xGlobal_ERC20_Official_Wallet_Address_777"
-        };
+        let currentUserDoc = null;
 
-        window.addEventListener('DOMContentLoaded', () => {
-            if (currentUser) initApp();
-        });
-
-        function handleLogin(e) {
-            e.preventDefault();
-            const email = document.getElementById('login-email').value.trim();
-            const pass = document.getElementById('login-pass').value;
-
-            let user = dbUsers.find(u => u.email === email && u.pass === pass);
-            if (!user && email === ADMIN_EMAIL) {
-                user = { email: ADMIN_EMAIL, pass: pass, balance: 10000, withdrawable: 3500, package: 'VIP 2', lastQuantTime: 0, inviteCode: 'ADMIN_GLOBAL' };
-                dbUsers.push(user);
-            }
-            if (!user) { alert('بيانات الدخول غير صحيحة.'); return; }
-
-            currentUser = user;
-            localStorage.setItem('fcc_current_user', JSON.stringify(currentUser));
-            initApp();
+        function switchAuthTab(tab) {
+            document.getElementById('login-form').classList.toggle('hidden', tab !== 'login');
+            document.getElementById('register-form').classList.toggle('hidden', tab !== 'register');
         }
 
-        function handleRegister(e) {
+        async function handleRegister(e) {
             e.preventDefault();
             const email = document.getElementById('reg-email').value.trim();
             const pass = document.getElementById('reg-pass').value;
             const passConfirm = document.getElementById('reg-pass-confirm').value;
 
-            if (pass !== passConfirm) { alert('كلمتا المرور غير متطابقتين!'); return; }
-            if (dbUsers.some(u => u.email === email)) { alert('البريد مسجل مسبقاً!'); return; }
+            if (pass !== passConfirm) return alert('كلمتا المرور غير متطابقتين!');
 
-            const newUser = { email, pass, balance: 0, withdrawable: 0, package: 'غير مشترك', lastQuantTime: 0, inviteCode: 'FCC' + Math.floor(1000 + Math.random() * 9000) };
-            dbUsers.push(newUser);
-            localStorage.setItem('fcc_db_users', JSON.stringify(dbUsers));
+            try {
+                const userCredential = await window.fbAuthOps.createUserWithEmailAndPassword(window.firebaseAuth, email, pass);
+                const user = userCredential.user;
 
-            currentUser = newUser;
-            localStorage.setItem('fcc_current_user', JSON.stringify(currentUser));
-            initApp();
-        }
+                await window.fbDbOps.setDoc(window.fbDbOps.doc(window.firebaseDb, "users", user.uid), {
+                    email: email,
+                    balance: 0,
+                    withdrawable: 0,
+                    package: 'غير مشترك',
+                    createdAt: new Date()
+                });
 
-        function initApp() {
-            document.getElementById('auth-screen').classList.add('hidden');
-            document.getElementById('main-app').classList.remove('hidden');
-
-            document.getElementById('header-username').innerText = currentUser.email.split('@')[0];
-            document.getElementById('user-avatar-initial').innerText = currentUser.email.charAt(0).toUpperCase();
-            document.getElementById('profile-email').innerText = currentUser.email;
-
-            document.getElementById('total-balance').innerText = `$${(currentUser.balance || 0).toFixed(2)}`;
-            document.getElementById('withdrawable-balance').innerText = `$${(currentUser.withdrawable || 0).toFixed(2)}`;
-            document.getElementById('my-invite-link').value = `https://fcc-ai.com/register?ref=${currentUser.inviteCode}`;
-
-            if (currentUser.email === ADMIN_EMAIL) {
-                document.getElementById('nav-admin').classList.remove('hidden');
+                alert('تم إنشاء حسابك السحابي بنجاح!');
+            } catch (err) {
+                alert('خطأ في التسجيل: ' + err.message);
             }
-            if (currentUser.package && currentUser.package !== 'غير مشترك') {
-                document.getElementById('quant-current-package').innerText = currentUser.package;
+        }
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value.trim();
+            const pass = document.getElementById('login-pass').value;
+
+            try {
+                await window.fbAuthOps.signInWithEmailAndPassword(window.firebaseAuth, email, pass);
+            } catch (err) {
+                alert('خطأ تسجيل الدخول: ' + err.message);
             }
-            renderRecords();
-            renderAdminRequests();
-            updateAdminStats();
         }
 
-        function logout() {
-            localStorage.removeItem('fcc_current_user');
-            location.reload();
-        }
+        window.addEventListener('load', () => {
+            const checkFirebaseInterval = setInterval(() => {
+                if (window.firebaseAuth) {
+                    clearInterval(checkFirebaseInterval);
+                    window.fbAuthOps.onAuthStateChanged(window.firebaseAuth, async (user) => {
+                        if (user) {
+                            document.getElementById('auth-screen').classList.add('hidden');
+                            document.getElementById('main-app').classList.remove('hidden');
+                            document.getElementById('profile-email').innerText = user.email;
+                            document.getElementById('header-username').innerText = user.email.split('@')[0];
 
-        function switchTab(tabId) {
-            ['home', 'quant', 'packages', 'records', 'team', 'profile', 'admin'].forEach(t => {
-                document.getElementById(`page-${t}`).classList.add('hidden');
-            });
-            document.getElementById(`page-${tabId}`).classList.remove('hidden');
+                            if (user.email === ADMIN_EMAIL) {
+                                document.getElementById('nav-admin').classList.remove('hidden');
+                                listenToAdminRequests();
+                            }
+
+                            window.fbDbOps.onSnapshot(window.fbDbOps.doc(window.firebaseDb, "users", user.uid), (docSnap) => {
+                                if (docSnap.exists()) {
+                                    currentUserDoc = docSnap.data();
+                                    document.getElementById('total-balance').innerText = `$${(currentUserDoc.balance || 0).toFixed(2)}`;
+                                    document.getElementById('withdrawable-balance').innerText = `$${(currentUserDoc.withdrawable || 0).toFixed(2)}`;
+                                    document.getElementById('quant-current-package').innerText = currentUserDoc.package || 'غير مشترك';
+                                }
+                            });
+
+                            listenToUserRecords(user.email);
+                        } else {
+                            document.getElementById('auth-screen').classList.remove('hidden');
+                            document.getElementById('main-app').classList.add('hidden');
+                        }
+                    });
+                }
+            }, 200);
+        });
+
+        function logout() { window.fbAuthOps.signOut(window.firebaseAuth); }
+
+        function switchTab(t) {
+            ['home', 'quant', 'packages', 'records', 'profile', 'admin'].forEach(p => document.getElementById(`page-${p}`).classList.add('hidden'));
+            document.getElementById(`page-${t}`).classList.remove('hidden');
         }
 
         function openModal(type) {
@@ -409,149 +326,140 @@
             const body = document.getElementById('modal-body');
 
             if (type === 'deposit') {
-                title.innerText = "شحن رصيد عالمي (الإيداع)";
+                title.innerText = "طلب إيداع رصيد";
                 body.innerHTML = `
-                    <select id="dep-network" onchange="updateWalletAddr()" class="w-full bg-slate-900 border border-slate-800 rounded-xl py-3 px-3 text-xs text-slate-200 mb-3">
-                        <option value="USDT-TRC20">USDT - TRC20</option>
-                        <option value="USDT-BEP20">USDT - BEP20</option>
-                        <option value="USDT-ERC20">USDT - ERC20</option>
-                    </select>
-                    <input type="number" id="dep-amount" placeholder="المبلغ ($)" class="w-full bg-slate-900 border border-slate-800 rounded-xl py-3 px-4 text-xs text-slate-100 mb-3">
-                    <div class="p-3 rounded-xl bg-slate-900 border border-slate-800 text-[11px] text-slate-400 space-y-2">
-                        <span>عنوان محفظة الإيداع الرسمية:</span>
-                        <code id="dep-wallet" class="text-blue-400 font-mono block break-all bg-slate-950 p-2 rounded">${adminWallets["USDT-TRC20"]}</code>
-                    </div>
-                    <button onclick="submitDeposit()" class="w-full py-3 rounded-xl bg-blue-600 font-bold text-xs text-white">إرسال طلب الإيداع للأدمن</button>
+                    <select id="dep-network" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs text-white mb-2"><option>USDT-TRC20</option><option>USDT-BEP20</option><option>USDT-ERC20</option></select>
+                    <input type="number" id="dep-amount" placeholder="المبلغ ($)" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs text-white mb-3">
+                    <button onclick="submitDeposit()" class="w-full py-3 rounded-xl bg-blue-600 text-xs font-bold text-white">إرسال الطلب للسحابة</button>
                 `;
             } else {
-                title.innerText = "سحب الأرباح";
+                title.innerText = "طلب سحب الأرباح";
                 body.innerHTML = `
-                    <select id="wd-network" class="w-full bg-slate-900 border border-slate-800 rounded-xl py-3 px-3 text-xs text-slate-200 mb-3">
-                        <option value="USDT-TRC20">USDT - TRC20</option>
-                        <option value="USDT-BEP20">USDT - BEP20</option>
-                        <option value="USDT-ERC20">USDT - ERC20</option>
-                    </select>
-                    <input type="text" id="wd-address" placeholder="عنوان محفظتك الخاصة" class="w-full bg-slate-900 border border-slate-800 rounded-xl py-3 px-4 text-xs text-slate-100 mb-3">
-                    <input type="number" id="wd-amount" placeholder="المبلغ المطلوب سحبه ($)" class="w-full bg-slate-900 border border-slate-800 rounded-xl py-3 px-4 text-xs text-slate-100 mb-3">
-                    <button onclick="submitWithdraw()" class="w-full py-3 rounded-xl bg-emerald-600 font-bold text-xs text-white">إرسال طلب السحب للأدمن</button>
+                    <input type="text" id="wd-address" placeholder="عنوان محفظتك" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs text-white mb-2">
+                    <input type="number" id="wd-amount" placeholder="المبلغ ($)" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs text-white mb-3">
+                    <button onclick="submitWithdraw()" class="w-full py-3 rounded-xl bg-emerald-600 text-xs font-bold text-white">تأكيد طلب السحب</button>
                 `;
             }
-        }
-
-        function updateWalletAddr() {
-            const net = document.getElementById('dep-network').value;
-            document.getElementById('dep-wallet').innerText = adminWallets[net];
         }
 
         function closeModal() { document.getElementById('modal-backdrop').classList.add('hidden'); }
 
-        function submitDeposit() {
+        async function submitDeposit() {
             const amount = parseFloat(document.getElementById('dep-amount').value);
             const network = document.getElementById('dep-network').value;
-            if (!amount || amount <= 0) return alert('أدخل مبلغاً صحيحاً');
+            if (!amount) return alert('أدخل مبلغاً صحيحاً');
 
-            transactions.push({ id: Date.now(), user: currentUser.email, type: 'إيداع', amount, network, status: 'معلق' });
-            localStorage.setItem('fcc_transactions', JSON.stringify(transactions));
+            await window.fbDbOps.addDoc(window.fbDbOps.collection(window.firebaseDb, "transactions"), {
+                user: window.firebaseAuth.currentUser.email,
+                userId: window.firebaseAuth.currentUser.uid,
+                type: 'إيداع',
+                amount: amount,
+                network: network,
+                status: 'معلق',
+                createdAt: new Date()
+            });
+
             closeModal();
-            alert('تم إرسال طلب الإيداع بنجاح، ووصل إشعار للأدمن للمراجعة.');
-            renderRecords(); renderAdminRequests(); updateAdminStats();
+            alert('تم إرسال طلب الإيداع للسحابة! يظهر فوراً لدى الأدمن.');
         }
 
-        function submitWithdraw() {
+        async function submitWithdraw() {
             const amount = parseFloat(document.getElementById('wd-amount').value);
-            const network = document.getElementById('wd-network').value;
             const address = document.getElementById('wd-address').value;
-            if (!amount || !address) return alert('أدخل كافة البيانات');
-            if (amount > currentUser.withdrawable) return alert('المبلغ يتجاوز أرباحك المتاحة');
+            if (!amount || !address) return alert('أدخل التفاصيل كاملة');
+            if (amount > (currentUserDoc.withdrawable || 0)) return alert('المبلغ أكبر من أرباحك القابلة للسحب');
 
-            transactions.push({ id: Date.now(), user: currentUser.email, type: 'سحب', amount, network, address, status: 'معلق' });
-            localStorage.setItem('fcc_transactions', JSON.stringify(transactions));
+            await window.fbDbOps.addDoc(window.fbDbOps.collection(window.firebaseDb, "transactions"), {
+                user: window.firebaseAuth.currentUser.email,
+                userId: window.firebaseAuth.currentUser.uid,
+                type: 'سحب',
+                amount: amount,
+                address: address,
+                status: 'معلق',
+                createdAt: new Date()
+            });
+
             closeModal();
-            alert('تم إرسال طلب السحب إلى الأدمن للموافقة الفورية.');
-            renderRecords(); renderAdminRequests(); updateAdminStats();
+            alert('تم إرسال طلب السحب للأدمن بنجاح.');
         }
 
-        function renderRecords() {
-            const list = document.getElementById('records-list');
-            const userTxs = transactions.filter(t => t.user === currentUser.email);
-            if (userTxs.length === 0) { list.innerHTML = `<div class="glass p-4 rounded-2xl text-center text-xs text-slate-400">لا توجد معاملات مسجلة.</div>`; return; }
-            list.innerHTML = userTxs.map(t => `
-                <div class="glass p-4 rounded-2xl border border-slate-800 flex justify-between items-center">
-                    <div><span class="text-xs font-bold text-blue-400 block">${t.type} (${t.network})</span><strong class="text-white">$${t.amount.toFixed(2)}</strong></div>
-                    <span class="text-xs px-3 py-1 rounded-lg font-bold ${t.status === 'مكتمل' ? 'bg-emerald-500/10 text-emerald-400' : 'bg-amber-500/10 text-amber-400'}">${t.status}</span>
-                </div>
-            `).join('');
+        function listenToUserRecords(email) {
+            const q = window.fbDbOps.query(window.fbDbOps.collection(window.firebaseDb, "transactions"), window.fbDbOps.where("user", "==", email));
+            window.fbDbOps.onSnapshot(q, (snapshot) => {
+                const list = document.getElementById('records-list');
+                list.innerHTML = '';
+                snapshot.forEach(docSnap => {
+                    const t = docSnap.data();
+                    list.innerHTML += `
+                        <div class="glass p-4 rounded-2xl border border-slate-800 flex justify-between items-center">
+                            <div><span class="text-xs font-bold text-blue-400 block">${t.type}</span><strong class="text-white">$${t.amount}</strong></div>
+                            <span class="text-xs px-2.5 py-1 rounded font-bold ${t.status === 'مكتمل' ? 'bg-emerald-500/10 text-emerald-400' : 'bg-amber-500/10 text-amber-400'}">${t.status}</span>
+                        </div>
+                    `;
+                });
+            });
         }
 
-        function renderAdminRequests() {
-            if (currentUser.email !== ADMIN_EMAIL) return;
-            const list = document.getElementById('admin-requests-list');
-            const pending = transactions.filter(t => t.status === 'معلق');
-            if (pending.length === 0) { list.innerHTML = `<div class="p-4 rounded-2xl bg-slate-900 text-center text-xs text-slate-400">لا توجد طلبات معلقة حالياً.</div>`; return; }
-            list.innerHTML = pending.map(t => `
-                <div class="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
-                    <div class="flex justify-between"><span class="text-xs font-bold text-amber-400">${t.user}</span><span class="text-xs font-bold text-white">${t.type}: $${t.amount} (${t.network})</span></div>
-                    ${t.address ? `<div class="text-[11px] text-slate-400">محفظة المستخدم: <code class="text-blue-400">${t.address}</code></div>` : ''}
-                    <div class="flex gap-2 justify-end pt-2">
-                        <button onclick="approveTx(${t.id})" class="px-3 py-1 rounded bg-emerald-600 text-white text-xs font-bold">موافقة</button>
-                        <button onclick="rejectTx(${t.id})" class="px-3 py-1 rounded bg-red-600 text-white text-xs font-bold">رفض</button>
-                    </div>
-                </div>
-            `).join('');
+        function listenToAdminRequests() {
+            const q = window.fbDbOps.query(window.fbDbOps.collection(window.firebaseDb, "transactions"), window.fbDbOps.where("status", "==", "معلق"));
+            window.fbDbOps.onSnapshot(q, (snapshot) => {
+                const list = document.getElementById('admin-requests-list');
+                list.innerHTML = '';
+                if (snapshot.empty) { list.innerHTML = '<p class="text-xs text-slate-400 text-center py-4">لا توجد طلبات معلقة.</p>'; return; }
+                snapshot.forEach(docSnap => {
+                    const t = docSnap.data();
+                    const docId = docSnap.id;
+                    list.innerHTML += `
+                        <div class="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+                            <div class="flex justify-between"><span class="text-xs text-amber-400 font-bold">${t.user}</span><strong class="text-xs text-white">${t.type}: $${t.amount}</strong></div>
+                            ${t.address ? `<p class="text-[11px] text-slate-400">المحفظة: <code class="text-blue-400">${t.address}</code></p>` : ''}
+                            <div class="flex gap-2 justify-end pt-2">
+                                <button onclick="approveAdminReq('${docId}', '${t.userId}', '${t.type}', ${t.amount})" class="px-3 py-1 bg-emerald-600 text-white rounded text-xs font-bold">موافقة</button>
+                                <button onclick="rejectAdminReq('${docId}')" class="px-3 py-1 bg-red-600 text-white rounded text-xs font-bold">رفض</button>
+                            </div>
+                        </div>
+                    `;
+                });
+            });
         }
 
-        function approveTx(id) {
-            const tx = transactions.find(t => t.id === id);
-            if (tx) {
-                tx.status = 'مكتمل';
-                let target = dbUsers.find(u => u.email === tx.user);
-                if (target) {
-                    if (tx.type === 'إيداع') target.balance = (target.balance || 0) + tx.amount;
-                    else if (tx.type === 'سحب') { target.withdrawable = Math.max(0, target.withdrawable - tx.amount); target.balance = Math.max(0, target.balance - tx.amount); }
-                    localStorage.setItem('fcc_db_users', JSON.stringify(dbUsers));
+        async function approveAdminReq(docId, userId, type, amount) {
+            await window.fbDbOps.updateDoc(window.fbDbOps.doc(window.firebaseDb, "transactions", docId), { status: 'مكتمل' });
+            const userRef = window.fbDbOps.doc(window.firebaseDb, "users", userId);
+            const userSnap = await window.fbDbOps.getDoc(userRef);
+            if (userSnap.exists()) {
+                const uData = userSnap.data();
+                if (type === 'إيداع') {
+                    await window.fbDbOps.updateDoc(userRef, { balance: (uData.balance || 0) + amount });
+                } else if (type === 'سحب') {
+                    await window.fbDbOps.updateDoc(userRef, { 
+                        withdrawable: Math.max(0, (uData.withdrawable || 0) - amount),
+                        balance: Math.max(0, (uData.balance || 0) - amount)
+                    });
                 }
-                localStorage.setItem('fcc_transactions', JSON.stringify(transactions));
-                renderAdminRequests(); renderRecords(); updateAdminStats();
-                if (currentUser.email === tx.user) { currentUser = target; localStorage.setItem('fcc_current_user', JSON.stringify(currentUser)); }
-                alert('تمت الموافقة على الطلب بنجاح.');
             }
+            alert('تمت الموافقة وتحديث رصيد المستخدم فوراً!');
         }
 
-        function rejectTx(id) {
-            const tx = transactions.find(t => t.id === id);
-            if (tx) {
-                tx.status = 'مرفوض';
-                localStorage.setItem('fcc_transactions', JSON.stringify(transactions));
-                renderAdminRequests(); renderRecords(); updateAdminStats();
-                alert('تم رفض الطلب.');
-            }
+        async function rejectAdminReq(docId) {
+            await window.fbDbOps.updateDoc(window.fbDbOps.doc(window.firebaseDb, "transactions", docId), { status: 'مرفوض' });
+            alert('تم رفض الطلب.');
         }
 
-        function updateAdminStats() {
-            if (currentUser.email !== ADMIN_EMAIL) return;
-            document.getElementById('admin-total-users').innerText = dbUsers.length;
-            document.getElementById('admin-total-txs').innerText = transactions.length;
-            document.getElementById('admin-pending-txs').innerText = transactions.filter(t => t.status === 'معلق').length;
-        }
-
-        function subscribePackage(name, price) {
-            currentUser.package = name;
-            localStorage.setItem('fcc_current_user', JSON.stringify(currentUser));
+        async function subscribePackage(name, price) {
+            if (!window.firebaseAuth.currentUser) return;
+            await window.fbDbOps.updateDoc(window.fbDbOps.doc(window.firebaseDb, "users", window.firebaseAuth.currentUser.uid), { package: name });
             alert(`تم الاشتراك في باقة ${name} بنجاح!`);
             switchTab('quant');
         }
 
-        function startQuantTask() {
-            if (!currentUser.package || currentUser.package === 'غير مشترك') { alert('يرجى الاشتراك باقة أولاً!'); switchTab('packages'); return; }
-            currentUser.withdrawable = (currentUser.withdrawable || 0) + 1.5;
-            currentUser.balance = (currentUser.balance || 0) + 1.5;
-            localStorage.setItem('fcc_current_user', JSON.stringify(currentUser));
-            alert('تم تنفيذ المهمة الكمية بنجاح وإضافة الأرباح!');
-        }
-
-        function copyInviteLink() {
-            navigator.clipboard.writeText(document.getElementById('my-invite-link').value);
-            alert('تم نسخ رابط الإحالة العالمي!');
+        async function startQuantTask() {
+            if (!currentUserDoc || !currentUserDoc.package || currentUserDoc.package === 'غير مشترك') return alert('اشترك في باقة أولاً');
+            await window.fbDbOps.updateDoc(window.fbDbOps.doc(window.firebaseDb, "users", window.firebaseAuth.currentUser.uid), {
+                withdrawable: (currentUserDoc.withdrawable || 0) + 1.5,
+                balance: (currentUserDoc.balance || 0) + 1.5
+            });
+            alert('تم تنفيذ المهمة اليومية بنجاح وإضافة الأرباح للسحابة!');
         }
     </script>
 </body>
