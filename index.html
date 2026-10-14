@@ -160,11 +160,11 @@
                     </div>
                 </div>
 
-                <!-- Live Crypto Prices Bar -->
+                <!-- Expanded Live Crypto Prices Bar -->
                 <div class="glass p-4 rounded-3xl border border-slate-800 space-y-3">
                     <div class="flex justify-between items-center">
-                        <h3 class="text-xs font-bold text-slate-200"><i class="fa-solid fa-chart-line text-blue-400 ml-1"></i> الأسعار الحية للعملات الرقمية</h3>
-                        <span class="text-[10px] text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded animate-pulse">تحديث مباشر</span>
+                        <h3 class="text-xs font-bold text-slate-200"><i class="fa-solid fa-chart-line text-blue-400 ml-1"></i> الأسعار المباشرة للعملات الرقمية</h3>
+                        <span class="text-[10px] text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded animate-pulse">تحديث حي 24/7</span>
                     </div>
                     <div class="grid grid-cols-3 gap-2" id="crypto-prices-container">
                         <div class="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800 text-center">
@@ -179,10 +179,26 @@
                             <span class="text-[10px] font-bold text-slate-400 block">SOL/USDT</span>
                             <span id="price-sol" class="text-xs font-black text-white">$182.50</span>
                         </div>
+                        <div class="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800 text-center">
+                            <span class="text-[10px] font-bold text-slate-400 block">BNB/USDT</span>
+                            <span id="price-bnb" class="text-xs font-black text-white">$590.20</span>
+                        </div>
+                        <div class="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800 text-center">
+                            <span class="text-[10px] font-bold text-slate-400 block">XRP/USDT</span>
+                            <span id="price-xrp" class="text-xs font-black text-white">$0.5480</span>
+                        </div>
+                        <div class="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800 text-center">
+                            <span class="text-[10px] font-bold text-slate-400 block">ADA/USDT</span>
+                            <span id="price-ada" class="text-xs font-black text-white">$0.3620</span>
+                        </div>
                     </div>
-                    <p class="text-[11px] text-slate-400 text-center px-2 pt-1 border-t border-slate-800/60">
-                        "منصة FCC-Ai تضمن لك أقصى درجات الأمان المالي والشفافية العالية في خوارزميات التداول الكمي العالمية مدعومة بأحدث تقنيات الذكاء الاصطناعي."
-                    </p>
+                    
+                    <!-- Extended Promotional Trust Text -->
+                    <div class="space-y-2 pt-2 border-t border-slate-800/80">
+                        <p class="text-[11px] text-slate-300 leading-relaxed text-justify px-1">
+                            تعتبر منصة <strong class="text-blue-400 font-bold">FCC-Ai</strong> الرائدة عالمياً في تقديم حلول التداول الكمي المعتمدة على الذكاء الاصطناعي التكيفي. نحن نضمن لجميع المستثمرين أقصى درجات الشفافية والأمان بفضل البنية التحتية المشفرة والمربوطة بالشبكات السحابية الذكية، مما يتيح لك تحقيق عوائد يومية مستقرة مع إمكانية سحب أرباحك فورياً وفي أي وقت دون تعقيدات.
+                        </p>
+                    </div>
                 </div>
 
                 <!-- Telegram Support Button -->
@@ -211,14 +227,13 @@
                 </div>
             </section>
 
-            <!-- PACKAGES PAGE (Full Complete List) -->
+            <!-- PACKAGES PAGE -->
             <section id="page-packages" class="space-y-6 hidden">
                 <div class="text-center space-y-1">
                     <h2 class="text-lg font-bold text-white">باقات الاستثمار والتحصيص</h2>
                     <p class="text-xs text-slate-400">اختر الباقة المناسبة لطموحك المالي والعوائد اليومية</p>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <!-- VIP 1 -->
                     <div class="glass p-5 rounded-3xl border border-blue-500/20 flex flex-col justify-between">
                         <div>
                             <span class="text-xs font-bold text-blue-400 bg-blue-500/10 px-3 py-1 rounded-full">VIP 1</span>
@@ -228,7 +243,6 @@
                         </div>
                         <button onclick="subscribePackage('VIP 1', 10)" class="mt-6 w-full py-3 rounded-xl bg-blue-600 font-bold text-xs text-white shadow-lg hover:bg-blue-500">اشترك الآن</button>
                     </div>
-                    <!-- VIP 2 -->
                     <div class="glass p-5 rounded-3xl border border-cyan-500/30 flex flex-col justify-between glow-blue">
                         <div>
                             <span class="text-xs font-bold text-cyan-400 bg-cyan-500/10 px-3 py-1 rounded-full">VIP 2</span>
@@ -238,7 +252,6 @@
                         </div>
                         <button onclick="subscribePackage('VIP 2', 50)" class="mt-6 w-full py-3 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 font-bold text-xs text-white shadow-lg">اشترك الآن</button>
                     </div>
-                    <!-- VIP 3 -->
                     <div class="glass p-5 rounded-3xl border border-amber-500/30 flex flex-col justify-between">
                         <div>
                             <span class="text-xs font-bold text-amber-400 bg-amber-500/10 px-3 py-1 rounded-full">VIP 3</span>
@@ -248,7 +261,6 @@
                         </div>
                         <button onclick="subscribePackage('VIP 3', 150)" class="mt-6 w-full py-3 rounded-xl bg-amber-600 font-bold text-xs text-white shadow-lg hover:bg-amber-500">اشترك الآن</button>
                     </div>
-                    <!-- VIP 4 -->
                     <div class="glass p-5 rounded-3xl border border-purple-500/30 flex flex-col justify-between">
                         <div>
                             <span class="text-xs font-bold text-purple-400 bg-purple-500/10 px-3 py-1 rounded-full">VIP 4</span>
@@ -374,6 +386,13 @@
         const ADMIN_EMAIL = "nnnnaaatttnanooo@gmail.com";
         let currentUserDoc = null;
 
+        // Deposit Addresses per Network
+        const DEPOSIT_ADDRESSES = {
+            'USDT-TRC20': 'T9xZ8Yv2K5mLpQn1R4wS3uJ7vX0zF8aB3C',
+            'USDT-BEP20': '0x71C7656EC7ab88b098defB751B7401B5f6d8976F',
+            'USDT-ERC20': '0x32Be343B94f860124dC4fEe278FDCBD38C102D88'
+        };
+
         function switchAuthTab(tab) {
             document.getElementById('login-form').classList.toggle('hidden', tab !== 'login');
             document.getElementById('register-form').classList.toggle('hidden', tab !== 'register');
@@ -461,18 +480,22 @@
                 }
             }, 200);
 
-            // Live fluctuating prices simulator
+            // Live fluctuating prices simulator for expanded crypto list
             setInterval(() => {
-                const btcEl = document.getElementById('price-btc');
-                const ethEl = document.getElementById('price-eth');
-                const solEl = document.getElementById('price-sol');
-                if(btcEl && ethEl && solEl) {
-                    let btcPrice = 68400 + (Math.random() * 80 - 40);
-                    let ethPrice = 3535 + (Math.random() * 20 - 10);
-                    let solPrice = 182 + (Math.random() * 4 - 2);
-                    btcEl.innerText = `$${btcPrice.toFixed(2)}`;
-                    ethEl.innerText = `$${ethPrice.toFixed(2)}`;
-                    solEl.innerText = `$${solPrice.toFixed(2)}`;
+                const prices = {
+                    btc: { id: 'price-btc', base: 68400, delta: 80 },
+                    eth: { id: 'price-eth', base: 3535, delta: 20 },
+                    sol: { id: 'price-sol', base: 182, delta: 4 },
+                    bnb: { id: 'price-bnb', base: 590, delta: 6 },
+                    xrp: { id: 'price-xrp', base: 0.548, delta: 0.01 },
+                    ada: { id: 'price-ada', base: 0.362, delta: 0.008 }
+                };
+                for (let key in prices) {
+                    const el = document.getElementById(prices[key].id);
+                    if(el) {
+                        let current = prices[key].base + (Math.random() * prices[key].delta - prices[key].delta / 2);
+                        el.innerText = `$${current.toFixed(key === 'xrp' || key === 'ada' ? 4 : 2)}`;
+                    }
                 }
             }, 3000);
         });
@@ -532,31 +555,59 @@
                 body.innerHTML = `
                     <div>
                         <label class="block text-xs text-slate-400 mb-1">اختر شبكة التحويل</label>
-                        <select id="dep-network" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs text-white">
-                            <option>USDT-TRC20</option>
-                            <option>USDT-BEP20</option>
-                            <option>USDT-ERC20</option>
+                        <select id="dep-network" onchange="updateDepositAddressDisplay()" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs text-white focus:outline-none">
+                            <option value="USDT-TRC20">USDT - TRC20 (Tron)</option>
+                            <option value="USDT-BEP20">USDT - BEP20 (BNB Chain)</option>
+                            <option value="USDT-ERC20">USDT - ERC20 (Ethereum)</option>
                         </select>
                     </div>
-                    <div>
-                        <label class="block text-xs text-slate-400 mb-1">المبلغ المراد إيداعه ($)</label>
-                        <input type="number" id="dep-amount" placeholder="0.00" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs text-white">
+
+                    <!-- Address & Copy Container -->
+                    <div class="bg-slate-900/90 p-3.5 rounded-2xl border border-slate-800 space-y-2">
+                        <span class="text-[11px] text-slate-400 block font-semibold">عنوان محفظة الإيداع المخصصة للشبكة:</span>
+                        <div class="flex items-center gap-2">
+                            <input type="text" readonly id="dep-address-input" value="${DEPOSIT_ADDRESSES['USDT-TRC20']}" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-blue-400 font-mono focus:outline-none">
+                            <button onclick="copyDepositAddress()" class="px-3 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold transition-all flex items-center gap-1 shrink-0">
+                                <i class="fa-solid fa-copy"></i> نسخ
+                            </button>
+                        </div>
                     </div>
-                    <button onclick="submitDeposit()" class="w-full py-3 rounded-xl bg-blue-600 text-xs font-bold text-white shadow-lg shadow-blue-600/30">إرسال الطلب للسحابة</button>
+
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">المبلغ المحوّل ($)</label>
+                        <input type="number" id="dep-amount" placeholder="0.00" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs text-white focus:outline-none">
+                    </div>
+                    <button onclick="submitDeposit()" class="w-full py-3.5 rounded-xl bg-blue-600 font-bold text-xs text-white shadow-lg shadow-blue-600/30">تأكيد وإرسال طلب الإيداع للسحابة</button>
                 `;
             } else {
                 title.innerText = "طلب سحب الأرباح";
                 body.innerHTML = `
                     <div>
                         <label class="block text-xs text-slate-400 mb-1">عنوان محفظتك الرقمية</label>
-                        <input type="text" id="wd-address" placeholder="أدخل عنوان المحفظة بدقة" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs text-white">
+                        <input type="text" id="wd-address" placeholder="أدخل عنوان المحفظة بدقة" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs text-white focus:outline-none">
                     </div>
                     <div>
                         <label class="block text-xs text-slate-400 mb-1">المبلغ المراد سحبه ($)</label>
-                        <input type="number" id="wd-amount" placeholder="0.00" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs text-white">
+                        <input type="number" id="wd-amount" placeholder="0.00" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs text-white focus:outline-none">
                     </div>
-                    <button onclick="submitWithdraw()" class="w-full py-3 rounded-xl bg-emerald-600 text-xs font-bold text-white shadow-lg shadow-emerald-600/30">تأكيد طلب السحب</button>
+                    <button onclick="submitWithdraw()" class="w-full py-3.5 rounded-xl bg-emerald-600 text-xs font-bold text-white shadow-lg shadow-emerald-600/30">تأكيد طلب السحب</button>
                 `;
+            }
+        }
+
+        function updateDepositAddressDisplay() {
+            const selectedNetwork = document.getElementById('dep-network').value;
+            const addressInput = document.getElementById('dep-address-input');
+            if (addressInput && DEPOSIT_ADDRESSES[selectedNetwork]) {
+                addressInput.value = DEPOSIT_ADDRESSES[selectedNetwork];
+            }
+        }
+
+        function copyDepositAddress() {
+            const addressInput = document.getElementById('dep-address-input');
+            if (addressInput) {
+                navigator.clipboard.writeText(addressInput.value);
+                alert('تم نسخ عنوان الإيداع بنجاح!');
             }
         }
 
